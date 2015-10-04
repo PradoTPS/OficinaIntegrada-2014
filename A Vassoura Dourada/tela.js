@@ -1,6 +1,6 @@
 var Tela = function() {
 
-	this.scene = "";
+	this.scene = "SPLASHSCREEN";
 	
 	this.MUSICA = true;
 	this.WIN = false;
@@ -553,15 +553,10 @@ var Tela = function() {
 		}
 		
 		if(Math.floor(this.currentFrame5) % this.numFrames_fade == 24 && this.scene == "FASE3") {
-			this.scene = "";
+			this.scene = "MENU";
 			this.WIN = false;
 			this.currentFrame5 = 0;
 			this.PASSAR_LEVEL = true;
-			document.getElementById("RUNNERMEDIEVAL").style.display = "none";
-			document.getElementById("final").style.display = "";
-			videoPlay_final = true;
-			video_final.play(0,0,800,600);
-			setTimeout(startGame, 13000);
 		}
 	}
 	

@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html>
+	<head> 
+		<title> A VASSOURA DOURADA </title>
+	</head>
+	<body>
+		<center>
+			<canvas canvas id="RUNNERMEDIEVAL" width="800" height="600" style="border:5px solid #000000;">
+			</canvas>
+		</center>
+		
+		<script src="runner.js"></script>
+		<script src="tela.js"></script>
+		<script src="arbusto.js"></script>
+		<script src="pedra.js"></script>
+		<script src="morcego2.js"></script>
+		<script src="barril.js"></script>
+		<script src="morcego.js"></script>
+		
+		<script>
+
+			// Ligando o canvas ao código javascript
+			var canvas = document.getElementById("RUNNERMEDIEVAL");
+			var context = canvas.getContext("2d");
+			
+			var tela = new Tela();
+			var runner =  new Runner();
+
+			var n_arbusto = [];
+			var MEX = 10;
+			for (var a = 0; a <= MEX; a++) {
+				n_arbusto.push(new Arbusto());
+
+				if (a > 0) {
+					n_arbusto[a].x = n_arbusto[a - 1].x + n_arbusto[a].w +
+											runner.w + 300 + Math.floor(Math.random() * 500);
+				} else {
+					n_arbusto[a].x = canvas.width + 30;
+				}
+			}
+			
+			function arbusto_update() {
+				if (tela.scene == "FASE1") {
+					for (var a in n_arbusto) {
+						n_arbusto[a].update();
+					}
+				}
+			}
+			
+			var n_pedra = [];
+			var MIX = 15;
+			for (var p = 0; p <= MIX; p++) {
+				n_pedra.push(new Pedra());
+
+				if (p > 0) {
+					n_pedra[p].x = n_pedra[p - 1].x + n_pedra[p].w +
+											runner.w + 500 + Math.floor(Math.random() * 500);
+				} else {
+					n_pedra[p].x = canvas.width + 30;
+				}
+			}
+			
+			function pedra_update() {
+				if (tela.scene == "FASE2") {
+					for (var p in n_pedra) {
+						n_pedra[p].update();
+					}
+				}
+			}
+			
+			var n_morcego2 = [];
+			var MUX = 8;
+			for (var m = 0; m <= MUX; m++) {
+				n_morcego2.push(new Morcego2());
+				
+				if (m > 0) {
+					n_morcego2[m].x = n_morcego2[m - 1].x + n_morcego2[m].w +
+											runner.w + 1700 + Math.floor(Math.random(250) * 500);
+				} else {
+					n_morcego2[m].x = canvas.width + 500 + Math.floor(Math.random() * 500);;
+				}
+			}
+			
+			function morcego2_update() {
+				if (tela.scene == "FASE2") {
+					for (var m in n_morcego2) {
+						n_morcego2[m].update();
+					}
+				}
+			}
+			
+			var n_barril = [];
+			var MAX = 25;
+			for (var b = 0; b <= MAX; b++) {
+				n_barril.push(new Barril());
+
+				if (b > 0) {
+					n_barril[b].x = n_barril[b - 1].x + n_barril[b].w +
+											runner.w + 300 + Math.floor(Math.random() * 500);
+				} else {
+					n_barril[b].x = canvas.width + 30;
+				}
+			}
+			
+			function barril_update() {
+				if (tela.scene == "FASE3") {
+					for (var b in n_barril) {
+						n_barril[b].update();
+					}
+				}
+			}
+			
+			var n_morcego = [];
+			var MOX = 16;
+			for (var m = 0; m <= MOX; m++) {
+				n_morcego.push(new Morcego());
+				
+				if (m > 0) {
+					n_morcego[m].x = n_morcego[m - 1].x + n_morcego[m].w +
+											runner.w + 1000 + Math.floor(Math.random(250) * 500);
+				} else {
+					n_morcego[m].x = canvas.width + 500 + Math.floor(Math.random() * 500);;
+				}
+			}
+			
+			function morcego_update() {
+				if (tela.scene == "FASE3") {
+					for (var m in n_morcego) {
+						n_morcego[m].update();
+					}
+				}
+			}
+			
+			var _keyDown = function(e) {
+				switch (e.keyCode) {
+					case 32:
+						if( tela.scene == "FASE3" && !tela.PAUSE || tela.scene == "FASE1" && !tela.PAUSE || tela.scene == "FASE2" && !tela.PAUSE) {
+							runner.pulo();
+							
+							if(tela.MUSICA && !tela.PAUSE) {
+								tela.cavalo_pulo_audio.play();
+							}
+						}
+						
+						if (tela.scene == "SPLASHSCREEN") {
+							tela.scene = "MENU";
+						}
+						break;
+						
+					case 80:
+						if ( tela.scene == "FASE3" && !tela.WIN || tela.scene == "FASE1" && !tela.WIN || tela.scene == "FASE2" && !tela.WIN) {
+							tela.PAUSE = !tela.PAUSE;
+							
+							if(tela.PAUSE && tela.MUSICA) {
+								tela.pause_click_audio.play();
+							}
+						}
+						break;
+						
+					case 90:
+						if (tela.scene == "FASE3" && !tela.PAUSE || tela.scene == "FASE1" && !tela.PAUSE || tela.scene == "FASE2" && !tela.PAUSE) {
+							for (var m = 0; m < MOX; m++) {
+								if( n_morcego[m].x <= 320 && n_morcego[m].x >= 115 &&
+									runner.colisao_y <= 350 && !runner.pulo_case) {
+									n_morcego[m].speed_x = -20;
+									n_morcego[m].speed_y = 15;
+								
+									if(tela.MUSICA && !tela.PAUSE) {
+										tela.morcego_morto_audio.play();
+										tela.espadada_audio.play();
+									}
+									
+								} else if(tela.MUSICA && !tela.PAUSE && !runner.pulo.case) {
+									tela.espadada_erro_audio.play();
+								}
+							}
+							
+							for (var m = 0; m < MUX; m++) {
+								if( n_morcego2[m].x <= 320 && n_morcego2[m].x >= 115 &&
+									runner.colisao_y <= 350 && !runner.pulo_case) {
+									n_morcego2[m].speed_x = -20;
+									n_morcego2[m].speed_y = 15;
+									
+									if(tela.MUSICA && !tela.PAUSE) {
+										tela.morcego_morto_audio.play();
+										tela.espadada_audio.play();
+									}
+									
+								} else if(tela.MUSICA && !tela.PAUSE && !runner.pulo.case) {
+									tela.espadada_erro_audio.play();
+								}
+							}
+							runner.espadada = true;
+						}
+						break;
+				}
+			}
+			var _mouseMove = function(e) {
+				if (tela.scene == "MENU") {
+					if ((e.x - canvas.offsetLeft > tela.botao_opcoes_x) && (e.x - canvas.offsetLeft < tela.botao_opcoes_x + tela.botao_opcoes_w) &&
+						(e.y > tela.botao_opcoes_y) && (e.y < tela.botao_opcoes_y + tela.botao_opcoes_h)) {
+						tela.botao_opcoes_x = 50;
+						tela.botao_opcoes_y = 431;
+						tela.botao_opcoes_w = 223;
+						tela.botao_opcoes_h = 124;
+						
+					} else {
+						tela.botao_opcoes_x = 55;
+						tela.botao_opcoes_y = 436;
+						tela.botao_opcoes_w = 208;
+						tela.botao_opcoes_h = 109;
+					}
+				}
+					
+					if (tela.scene == "OPCOES") {
+						if ((e.x - canvas.offsetLeft > tela.botao_voltar_x) && (e.x - canvas.offsetLeft < tela.botao_voltar_x + tela.botao_voltar_w) &&
+							(e.y > tela.botao_voltar_y) && (e.y < tela.botao_voltar_y + tela.botao_voltar_h)) {
+							tela.botao_voltar_x = 567;
+							tela.botao_voltar_y = 15;
+							tela.botao_voltar_w = 223;
+							tela.botao_voltar_h = 124;
+						} else {
+							tela.botao_voltar_x = 572;
+							tela.botao_voltar_y = 20;
+							tela.botao_voltar_w = 208;
+							tela.botao_voltar_h = 109;
+						}
+					}
+					
+					if (tela.scene == "MENU") {
+						if ((e.x - canvas.offsetLeft > tela.botao_creditos_x) && (e.x - canvas.offsetLeft < tela.botao_creditos_x + tela.botao_creditos_w) &&
+							(e.y > tela.botao_creditos_y) && (e.y < tela.botao_creditos_y + tela.botao_creditos_h)) {
+							tela.botao_creditos_x = 532;
+							tela.botao_creditos_y = 431;
+							tela.botao_creditos_w = 223;
+							tela.botao_creditos_h = 124;
+						} else {
+							tela.botao_creditos_x = 537;
+							tela.botao_creditos_y = 436;
+							tela.botao_creditos_w = 208;
+							tela.botao_creditos_h = 109;
+						}
+					}
+					
+					if (tela.scene == "CREDITOS") {
+						if ((e.x - canvas.offsetLeft > tela.botao_voltar_x) && (e.x - canvas.offsetLeft < tela.botao_voltar_x + tela.botao_voltar_w) &&
+							(e.y > tela.botao_voltar_y) && (e.y < tela.botao_voltar_y + tela.botao_voltar_h)) {
+							tela.botao_voltar_x = 567;
+							tela.botao_voltar_y = 15;
+							tela.botao_voltar_w = 223;
+							tela.botao_voltar_h = 124;
+						} else {
+							tela.botao_voltar_x = 572;
+							tela.botao_voltar_y = 20;
+							tela.botao_voltar_w = 208;
+							tela.botao_voltar_h = 109;
+						}
+					}
+					
+					if (tela.scene == "MENU" || tela.PAUSE) {
+						if ((e.x - canvas.offsetLeft > tela.botao_musica_x) && (e.x - canvas.offsetLeft < tela.botao_musica_x + tela.botao_musica_w) &&
+							(e.y > tela.botao_musica_y) && (e.y < tela.botao_musica_y + tela.botao_musica_h)) {
+							tela.botao_musica_x = 5;
+							tela.botao_musica_y = 5;
+							tela.botao_musica_w = 69;
+							tela.botao_musica_h = 72;
+						} else {
+							tela.botao_musica_x = 10;
+							tela.botao_musica_y = 10;
+							tela.botao_musica_w = 54;
+							tela.botao_musica_h = 57;
+						}
+					}
+
+					if (tela.scene == "MENU") {
+						if ((e.x - canvas.offsetLeft > tela.botao_play_x) && (e.x - canvas.offsetLeft < tela.botao_play_x + tela.botao_play_w) &&
+							(e.y > tela.botao_play_y) && (e.y < tela.botao_play_y + tela.botao_play_h)) {
+							tela.botao_play_x = 283;
+							tela.botao_play_y = 145;
+							tela.botao_play_w = 239;
+							tela.botao_play_h = 237;
+						} else {
+							tela.botao_play_x = 288;
+							tela.botao_play_y = 150;
+							tela.botao_play_w = 224;
+							tela.botao_play_h = 222;
+						}
+					}
+					
+					if (tela.scene == "LOOSE") {
+						if ((e.x - canvas.offsetLeft > tela.botao_loose_sair_x) && (e.x - canvas.offsetLeft < tela.botao_loose_sair_x + tela.botao_loose_sair_w) &&
+							(e.y > tela.botao_loose_sair_y) && (e.y < tela.botao_loose_sair_y + tela.botao_loose_sair_h)) {
+							tela.botao_loose_sair_x = 95;
+							tela.botao_loose_sair_y = 431;
+							tela.botao_loose_sair_w = 223;
+							tela.botao_loose_sair_h = 124;
+						} else {
+							tela.botao_loose_sair_x = 100;
+							tela.botao_loose_sair_y = 436;
+							tela.botao_loose_sair_w = 208;
+							tela.botao_loose_sair_h = 109;
+						}
+					}
+						
+					if (tela.scene == "LOOSE") {
+						if ((e.x - canvas.offsetLeft > tela.botao_loose_voltar_x) && (e.x - canvas.offsetLeft < tela.botao_loose_voltar_x + tela.botao_loose_voltar_w) &&
+							(e.y > tela.botao_loose_voltar_y) && (e.y < tela.botao_loose_voltar_y + tela.botao_loose_voltar_h)) {
+							tela.botao_loose_voltar_x = 487;
+							tela.botao_loose_voltar_y = 431;
+							tela.botao_loose_voltar_w = 223;
+							tela.botao_loose_voltar_h = 124;
+						} else {
+							tela.botao_loose_voltar_x = 492;
+							tela.botao_loose_voltar_y = 436;
+							tela.botao_loose_voltar_w = 208;
+							tela.botao_loose_voltar_h = 109;
+						}
+					}
+					
+					if(tela.PAUSE) {
+						if ((e.x - canvas.offsetLeft > tela.botao_pause_sair_x) && (e.x - canvas.offsetLeft < tela.botao_pause_sair_x + tela.botao_pause_sair_w) &&
+							(e.y > tela.botao_pause_sair_y) && (e.y < tela.botao_pause_sair_y + tela.botao_pause_sair_h)) {
+							tela.botao_pause_sair_x = 291;
+							tela.botao_pause_sair_y = 245;
+							tela.botao_pause_sair_w = 223;
+							tela.botao_pause_sair_h = 124;
+						} else {
+							tela.botao_pause_sair_x = 296;
+							tela.botao_pause_sair_y = 250;
+							tela.botao_pause_sair_w = 208;
+							tela.botao_pause_sair_h = 109;
+					}
+				}
+			}
+			var _mouseClick = function(e) {
+				if (tela.scene == "MENU") {
+					if ((e.x - canvas.offsetLeft > tela.botao_opcoes_x) && (e.x - canvas.offsetLeft < tela.botao_opcoes_x + tela.botao_opcoes_w) &&
+						(e.y > tela.botao_opcoes_y) && (e.y < tela.botao_opcoes_y + tela.botao_opcoes_h)) {
+						tela.scene = "OPCOES";
+						
+						if(tela.MUSICA) {
+							tela.botao_audio.play();
+						}
+					}
+				}
+				
+				if (tela.scene == "OPCOES") {
+					if ((e.x - canvas.offsetLeft > tela.botao_voltar_x) && (e.x - canvas.offsetLeft < tela.botao_voltar_x + tela.botao_voltar_w) &&
+						(e.y > tela.botao_voltar_y) && (e.y < tela.botao_voltar_y + tela.botao_voltar_h)) {
+						tela.scene = "MENU";
+						
+						if(tela.MUSICA) {
+							tela.botao_audio.play();
+						}
+					}
+				}
+				
+				if (tela.scene == "MENU") {
+					if ((e.x - canvas.offsetLeft > tela.botao_creditos_x) && (e.x - canvas.offsetLeft < tela.botao_creditos_x + tela.botao_creditos_w) &&
+						(e.y > tela.botao_creditos_y) && (e.y < tela.botao_creditos_y + tela.botao_creditos_h)) {
+						tela.scene = "CREDITOS";
+						
+						if(tela.MUSICA) {
+							tela.botao_audio.play();
+						}
+					}
+				}
+				
+				if (tela.scene == "CREDITOS") {
+					if ((e.x - canvas.offsetLeft > tela.botao_voltar_x) && (e.x - canvas.offsetLeft < tela.botao_voltar_x + tela.botao_voltar_w) &&
+						(e.y > tela.botao_voltar_y) && (e.y < tela.botao_voltar_y + tela.botao_voltar_h)) {
+						tela.scene = "MENU";
+						
+						if(tela.MUSICA) {
+							tela.botao_audio.play();
+						}
+					}
+				}
+				
+				if (tela.scene == "MENU" || tela.PAUSE) {
+					if ((e.x - canvas.offsetLeft > tela.botao_musica_x) && (e.x - canvas.offsetLeft < tela.botao_musica_x + tela.botao_musica_w) &&
+						(e.y > tela.botao_musica_y) && (e.y < tela.botao_musica_y + tela.botao_musica_h)) {
+						tela.MUSICA = !tela.MUSICA;
+						
+						if(tela.MUSICA) {
+							tela.botao_audio.play();
+						}
+					}
+				}
+
+				if (tela.scene == "MENU") {
+					if ((e.x - canvas.offsetLeft > tela.botao_play_x) && (e.x - canvas.offsetLeft < tela.botao_play_x + tela.botao_play_w) &&
+						(e.y > tela.botao_play_y) && (e.y < tela.botao_play_y + tela.botao_play_h)) {
+						tela.scene = "FASE1";
+						
+						if(tela.MUSICA) {
+							tela.botao_audio.play();
+						}
+					}
+				}
+				
+				if (tela.scene == "LOOSE") {
+					if ((e.x - canvas.offsetLeft > tela.botao_loose_sair_x) && (e.x - canvas.offsetLeft < tela.botao_loose_sair_x + tela.botao_loose_sair_w) &&
+						(e.y > tela.botao_loose_sair_y) && (e.y < tela.botao_loose_sair_y + tela.botao_loose_sair_h)) {
+						tela.scene = "MENU";
+						tela.WIN = false;
+						
+						for (var a = 0; a <= MEX; a++) {
+							n_arbusto.splice(a);
+							
+							n_arbusto.push(new Arbusto());
+
+							if (a > 0) {
+								n_arbusto[a].x = n_arbusto[a - 1].x + n_arbusto[a].w +
+														runner.w + 300 + Math.floor(Math.random() * 500);
+							} else {
+								n_arbusto[a].x = canvas.width + 30;
+							}
+						}
+						
+						for (var p = 0; p <= MIX; p++) {
+							n_pedra.splice(p);
+							
+							n_pedra.push(new Pedra());
+
+							if (p > 0) {
+								n_pedra[p].x = n_pedra[p - 1].x + n_pedra[p].w +
+														runner.w + 500 + Math.floor(Math.random() * 500);
+							} else {
+								n_pedra[p].x = canvas.width + 30;
+							}
+						}
+						
+						for (var m = 0; m <= MUX; m++) {
+							n_morcego2.splice(m);
+						
+							n_morcego2.push(new Morcego2());
+				
+							if (m > 0) {
+								n_morcego2[m].x = n_morcego2[m - 1].x + n_morcego2[m].w +
+														runner.w + 1700 + Math.floor(Math.random(250) * 500);
+							} else {
+								n_morcego2[m].x = canvas.width + 500 + Math.floor(Math.random() * 500);;
+							}
+						}
+						
+						for (var b = 0; b <= MAX; b++) {
+							n_barril.splice(b);
+							
+							n_barril.push(new Barril());
+
+							if (b > 0) {
+								n_barril[b].x = n_barril[b - 1].x + n_barril[b].w +
+														runner.w + 300 + Math.floor(Math.random() * 500);
+							} else {
+								n_barril[b].x = canvas.width + 30;
+							}
+						}
+								
+						for (var m = 0; m <= MOX; m++) {
+							n_morcego.splice(m);
+						
+							n_morcego.push(new Morcego());
+				
+							if (m > 0) {
+								n_morcego[m].x = n_morcego[m - 1].x + n_morcego[m].w +
+														runner.w + 1000 + Math.floor(Math.random(250) * 500);
+							} else {
+								n_morcego[m].x = canvas.width + 500 + Math.floor(Math.random() * 500);;
+							}
+						}
+						
+						runner.colisao_x = 133;
+						runner.colisao_y = 385;
+						runner.x = -120;
+						runner.speed_x = 8;
+						runner.y = 375;
+						runner.moveup = false;
+						runner.moveup1 = false;
+						pulo_case = true;
+						pulo_case2 = true;
+						tela.lua_x = 400;
+						tela.pedro_barra_x = 200;
+						
+						if(tela.MUSICA) {
+							tela.botao_audio.play();
+						}
+					}
+				}
+					
+				if (tela.scene == "LOOSE") {
+					if ((e.x - canvas.offsetLeft > tela.botao_loose_voltar_x) && (e.x - canvas.offsetLeft < tela.botao_loose_voltar_x + tela.botao_loose_voltar_w) &&
+						(e.y > tela.botao_loose_voltar_y) && (e.y < tela.botao_loose_voltar_y + tela.botao_loose_voltar_h)) {
+						if(tela.FASE1) {
+							tela.scene = "FASE1";
+						}
+						
+						if(tela.FASE2) {
+							tela.scene = "FASE2";
+						}
+						
+						if(tela.FASE3) {
+							tela.scene = "FASE3";
+						}
+						
+						for (var a = 0; a <= MEX; a++) {
+							n_arbusto.splice(a);
+							
+							n_arbusto.push(new Arbusto());
+
+							if (a > 0) {
+								n_arbusto[a].x = n_arbusto[a - 1].x + n_arbusto[a].w +
+												runner.w + 300 + Math.floor(Math.random() * 500);
+							} else {
+								n_arbusto[a].x = canvas.width + 30;
+							}
+						}
+						
+						
+						for (var p = 0; p <= MIX; p++) {
+							n_pedra.splice(p);
+							
+							n_pedra.push(new Pedra());
+
+							if (p > 0) {
+								n_pedra[p].x = n_pedra[p - 1].x + n_pedra[p].w +
+												runner.w + 500 + Math.floor(Math.random() * 500);
+							} else {
+								n_pedra[p].x = canvas.width + 30;
+							}
+						}
+						
+						for (var m = 0; m <= MUX; m++) {
+							n_morcego2.splice(m);
+						
+							n_morcego2.push(new Morcego2());
+				
+							if (m > 0) {
+								n_morcego2[m].x = n_morcego2[m - 1].x + n_morcego2[m].w +
+														runner.w + 1700 + Math.floor(Math.random(250) * 500);
+							} else {
+								n_morcego2[m].x = canvas.width + 500 + Math.floor(Math.random() * 500);;
+							}
+						}
+						
+						for (var b = 0; b <= MAX; b++) {
+							n_barril.splice(b);
+							
+							n_barril.push(new Barril());
+
+							if (b > 0) {
+								n_barril[b].x = n_barril[b - 1].x + n_barril[b].w +
+												runner.w + 300 + Math.floor(Math.random() * 500);
+							} else {
+								n_barril[b].x = canvas.width + 30;
+							}
+						}
+									
+						for (var m = 0; m <= MOX; m++) {
+							n_morcego.splice(m);
+							
+							n_morcego.push(new Morcego());
+					
+							if (m > 0) {
+								n_morcego[m].x = n_morcego[m - 1].x + n_morcego[m].w +
+												runner.w + 1000 + Math.floor(Math.random(250) * 500);
+							} else {
+								n_morcego[m].x = canvas.width + 500 + Math.floor(Math.random() * 500);;
+							}
+						}
+						
+						runner.colisao_x = 133;
+						runner.colisao_y = 385;
+						runner.x = -120;
+						runner.speed_x = 8;
+						runner.y = 375;
+						runner.moveup = false;
+						runner.moveup1 = false;
+						pulo_case = true;
+						pulo_case2 = true;
+						tela.lua_x = 400;
+						tela.pedro_barra_x = 200;
+						
+						if(tela.MUSICA) {
+							tela.botao_audio.play();
+						}
+					}
+				}
+				
+				if(tela.PAUSE) {
+					if ((e.x - canvas.offsetLeft > tela.botao_pause_sair_x) && (e.x - canvas.offsetLeft < tela.botao_pause_sair_x + tela.botao_pause_sair_w) &&
+						(e.y > tela.botao_pause_sair_y) && (e.y < tela.botao_pause_sair_y + tela.botao_pause_sair_h)) {
+						tela.scene = "MENU";
+						tela.PAUSE = false;
+						
+						for (var a = 0; a <= MEX; a++) {
+							n_arbusto.splice(a);
+							
+							n_arbusto.push(new Arbusto());
+
+							if (a > 0) {
+								n_arbusto[a].x = n_arbusto[a - 1].x + n_arbusto[a].w +
+														runner.w + 300 + Math.floor(Math.random() * 500);
+							} else {
+								n_arbusto[a].x = canvas.width + 30;
+							}
+						}
+						
+						for (var p = 0; p <= MIX; p++) {
+							n_pedra.splice(p);
+							
+							n_pedra.push(new Pedra());
+
+							if (p > 0) {
+								n_pedra[p].x = n_pedra[p - 1].x + n_pedra[p].w +
+												runner.w + 500 + Math.floor(Math.random() * 500);
+							} else {
+								n_pedra[p].x = canvas.width + 30;
+							}
+						}
+						
+						for (var m = 0; m <= MUX; m++) {
+							n_morcego2.splice(m);
+						
+							n_morcego2.push(new Morcego2());
+				
+							if (m > 0) {
+								n_morcego2[m].x = n_morcego2[m - 1].x + n_morcego2[m].w +
+														runner.w + 1700 + Math.floor(Math.random(250) * 500);
+							} else {
+								n_morcego2[m].x = canvas.width + 500 + Math.floor(Math.random() * 500);;
+							}
+						}
+						
+						for (var b = 0; b <= MAX; b++) {
+							n_barril.splice(b);
+							
+							n_barril.push(new Barril());
+
+							if (b > 0) {
+								n_barril[b].x = n_barril[b - 1].x + n_barril[b].w +
+												runner.w + 300 + Math.floor(Math.random() * 500);
+							} else {
+								n_barril[b].x = canvas.width + 30;
+							}
+						}
+								
+						for (var m = 0; m <= MOX; m++) {
+							n_morcego.splice(m);
+						
+							n_morcego.push(new Morcego());
+				
+							if (m > 0) {
+								n_morcego[m].x = n_morcego[m - 1].x + n_morcego[m].w +
+												runner.w + 1000 + Math.floor(Math.random(250) * 500);
+							} else {
+								n_morcego[m].x = canvas.width + 500 + Math.floor(Math.random() * 500);;
+							}
+						}
+						
+						runner.colisao_x = 133;
+						runner.colisao_y = 385;
+						runner.x = -120;
+						runner.speed_x = 8;
+						runner.y = 375;
+						runner.moveup = false;
+						runner.moveup1 = false;
+						pulo_case = true;
+						pulo_case2 = true;
+						tela.lua_x = 400;
+						tela.pedro_barra_x = 200;
+					}
+					
+					if(tela.MUSICA) {
+						tela.botao_audio.play();
+					}
+				}
+			}
+			
+			document.addEventListener("keydown", _keyDown, true);
+			document.addEventListener("click", _mouseClick, false);
+			document.addEventListener("mousemove", _mouseMove, true);
+			
+			var verificando_win = function() {
+				if(tela.scene == "FASE1") {
+					for (var a = 0; a <= MEX; a++) {
+						if(n_arbusto[MEX].x + n_arbusto[MEX].w <= 0) {
+							tela.WIN = true;
+						}
+					}
+				}
+				if(tela.scene == "FASE2") {
+					for (var p = 0; p <= MIX; p++) {
+						for (var m = 0; m <= MUX; m++) {
+							if(n_pedra[MIX].x + n_pedra[MIX].w <= 0) {
+								if (n_morcego2[MUX].x + n_morcego2[MUX].w <= 0 ||
+									n_morcego2[MUX].y + n_morcego2[MUX].h <= 0) {
+									tela.WIN = true;
+								}
+							}
+						}
+					}
+				}
+				if(tela.scene == "FASE3") {
+					for (var b = 0; b <= MAX; b++) {
+						for (var m = 0; m <= MOX; m++) {
+							if(n_barril[MAX].x + n_barril[MAX].w <= 0) {
+								if (n_morcego[MOX].x + n_morcego[MOX].w <= 0 ||
+									n_morcego[MOX].y + n_morcego[MOX].h <= 0) {
+									tela.WIN = true;
+								}
+							}
+						}
+					}
+				}
+			}
+			
+			var reiniciando = function() {
+				runner.colisao_y = 385;
+				runner.colisao_x = 133;
+				runner.x = -120;
+				runner.speed_x = 8;
+				runner.y = 375;
+				runner.moveup = false;
+				runner.moveup1 = false;
+				pulo_case = true;
+				pulo_case2 = true;
+				tela.lua_x = 400;
+				tela.vassoura_y = -600;
+				tela.PASSAR_LEVEL = false;
+				tela.WIN = false;
+				tela.win_audio.currentTime = 0;
+				tela.pedro_barra_x = 200;
+				
+				if(tela.FASE1){
+					tela.FASE1 = false;
+					tela.FASE2 = true;
+				}
+				if(tela.FASE2){
+					tela.FASE2 = false;
+					tela.FASE3 = true;
+				}
+				if(tela.FASE3){
+					tela.FASE3 = false;
+				}
+			}
+			
+			var update = function() {
+				if(tela.scene == "FASE3" && !tela.PAUSE) {
+					runner.update();
+					barril_update();
+					morcego_update();
+				}
+				if(tela.scene == "FASE1" && !tela.PAUSE) {
+					runner.update();
+					arbusto_update();
+				}
+				if(tela.scene == "FASE2" && !tela.PAUSE) {
+					runner.update();
+					pedra_update();
+					morcego2_update();
+				}
+				tela.update();
+				verificando_win();
+
+				if(tela.PASSAR_LEVEL) {
+					reiniciando();
+				}
+			}
+			
+			var draw = function() {
+				tela.draw();
+			}
+			
+			var loop = function() {
+				update();
+				draw();
+				setTimeout(loop, 30);
+			}
+			
+			loop();
+			
+		</script>
+	</body>
+</html>
