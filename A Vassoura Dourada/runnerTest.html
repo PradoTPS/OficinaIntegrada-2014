@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+	<head> 
+		<title> A VASSOURA DOURADA </title>
+	</head>
+	<body>
+		<center>
+			<canvas canvas id="myCanvas" width="800" height="600" style="border:5px solid #000000;">
+			</canvas>
+		</center>
+		
+		<script src="runner.js"></script>
+		<script>
+
+			var canvas = document.getElementById("myCanvas");
+			var context = canvas.getContext("2d");
+			
+			var runner =  new Runner();
+
+			var _keyDown = function(e) {
+				switch (e.keyCode) {
+					case 32:
+						runner.pulo();
+						break;
+						
+					case 90:
+						runner.espadada = true;
+						break;
+				}
+			}
+
+			document.addEventListener("keydown", _keyDown, true);
+			
+			var update = function() {
+				runner.update();
+			}
+			
+			var draw = function() {
+				context.clearRect(0,0,canvas.width,canvas.height);
+				runner.draw();
+			}
+			
+			var loop = function() {
+				update();
+				draw();
+				setTimeout(loop, 30);
+			}
+			
+			loop();
+			
+		</script>
+	</body>
+</html>
