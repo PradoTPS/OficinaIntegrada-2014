@@ -1,4 +1,4 @@
-var Bat = function(numberOfBat) {
+function Bat(numberOfBat) {
 	this.x = 800 + Math.floor(Math.random() * 100);
 	this.y = 230;
 	this.w = 70;
@@ -50,15 +50,11 @@ var Bat = function(numberOfBat) {
 			runner.colliderY - runner.colliderH < this.y + this.h &&
 			runner.colliderY - runner.colliderH <= this.y - this.h) {
 			
-			if(screen.scene == "FASE3"){
-				screen.scene = "LOOSE";
-			}
-			
-			if(screen.scene == "FASE2"){
-				screen.scene = "LOOSE";
+			if(screen.scene == "LEVEL2" || screen.scene == "LEVEL3"){
+				screen.scene = "LOSS";
 			}
 				
-			if(screen.MUSICA) {
+			if(screen.soundOn) {
 				screen.morcego_audio.play();
 				screen.cavalo_morreu_audio.play();
 			}

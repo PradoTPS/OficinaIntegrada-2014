@@ -1,4 +1,4 @@
-var Runner = function() {
+function Runner() {
 	this.x = -120;
 	this.y = 375;
 	this.w = 126;
@@ -151,11 +151,11 @@ var Runner = function() {
 			this.speedX = 0
 		}
 
-		if(screen.WIN) {
+		if(screen.winning) {
 			this.speedX = 4;
 		}
 		
-		if(screen.WIN && screen.scene == "FASE1" || screen.WIN && screen.scene == "FASE2") {
+		if(screen.winning && screen.scene == "LEVEL1" || screen.winning && screen.scene == "LEVEL2") {
 			if(this.x < 840) {
 				this.x += this.speedX;
 			}  else {
@@ -163,7 +163,7 @@ var Runner = function() {
 			}
 		}
 		
-		if(screen.WIN && screen.scene == "FASE3") {
+		if(screen.winning && screen.scene == "LEVEL3") {
 			if(this.x < 337) {
 				this.x += this.speedX;
 			}  else {
@@ -175,7 +175,7 @@ var Runner = function() {
 	}	
 	
 	this.draw = function() {
-		if( screen.scene == "FASE3") {
+		if( screen.scene == "LEVEL3") {
 			if (this.caseJump && this.x < 337) {
 				/*context.fillStyle = "WHITE";
 				context.fillRect(this.colliderX, this.colliderY, this.colliderW, this.colliderH);*/
@@ -183,7 +183,7 @@ var Runner = function() {
 			}
 		}
 		
-		if( screen.scene == "FASE1" || screen.scene == "FASE2" ) {
+		if( screen.scene == "LEVEL1" || screen.scene == "LEVEL2" ) {
 			if (this.caseJump) {
 				/*context.fillStyle = "WHITE";
 				context.fillRect(this.colliderX, this.colliderY, this.colliderW, this.colliderH);*/
@@ -211,7 +211,7 @@ var Runner = function() {
 			context.drawImage(this.hittingDown[Math.floor(this.currentFrame2) % this.numFramesHitting], this.x + 10, this.y, this.hittingW, this.hittingH);
 		}
 		
-		if (this.x >= 337 && screen.scene == "FASE3") {
+		if (this.x >= 337 && screen.scene == "LEVEL3") {
 			context.drawImage(this.up, this.x, this.y, this.w, this.h);
 		}
 	}

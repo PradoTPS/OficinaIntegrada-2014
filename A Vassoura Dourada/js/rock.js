@@ -1,4 +1,4 @@
-var Rock = function() {
+function Rock() {
 	this.rock = new Image();
 	this.rock.src = "IMAGEM/Jogo/Inimigos/pedra.png";
 
@@ -17,20 +17,12 @@ var Rock = function() {
 			runner.colliderX - runner.colliderW + 30 < this.x + this.w &&
 			runner.colliderY + runner.colliderH >= this.y &&
 			runner.colliderY - runner.colliderH + 30 < this.y + this.h) {
-					
-			if(screen.scene == "FASE3"){
-				screen.scene = "LOOSE";
+			
+			if(screen.scene == "LEVEL1" || screen.scene == "LEVEL2" || screen.scene == "LEVEL3"){
+				screen.scene = "LOSS";
 			}
 			
-			if(screen.scene == "FASE1"){
-				screen.scene = "LOOSE";
-			}
-			
-			if(screen.scene == "FASE2"){
-				screen.scene = "LOOSE";
-			}
-			
-			if(screen.MUSICA) {
+			if(screen.soundOn) {
 				screen.bateu_audio.play();
 				screen.cavalo_morreu_audio.play();
 			}

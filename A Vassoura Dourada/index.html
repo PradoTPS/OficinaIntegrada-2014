@@ -1,22 +1,22 @@
 <!DOCTYPE html>
 <html>
-<head> 
-<title> A VASSOURA DOURADA </title>
-</head>
-<body>
-	<center>
-		<canvas canvas id="VassouraDourada" width="800" height="600" style="border:5px solid #000000;">
-		</canvas>
-	</center>
-	
-	<script src="js/runner.js"></script>
-	<script src="js/screen.js"></script>
-	<script src="js/bush.js"></script>
-	<script src="js/rock.js"></script>
-	<script src="js/barrel.js"></script>
-	<script src="js/bat.js"></script>
-	
-	<script>
+	<head> 
+		<title> A VASSOURA DOURADA </title>
+	</head>
+	<body>
+		<center>
+			<canvas canvas id="VassouraDourada" width="800" height="600" style="border:5px solid #000000;">
+			</canvas>
+		</center>
+		
+		<script src="js/runner.js"></script>
+		<script src="js/screen.js"></script>
+		<script src="js/bush.js"></script>
+		<script src="js/rock.js"></script>
+		<script src="js/barrel.js"></script>
+		<script src="js/bat.js"></script>
+		
+		<script>
 		var canvas = document.getElementById("VassouraDourada");
 		var context = canvas.getContext("2d");
 		
@@ -24,7 +24,7 @@
 		
 		var runner =  new Runner();
 
-		var n_arbusto = [];
+		var n_arbusto = new Array();
 		var MEX = 10;
 		for (var a = 0; a <= MEX; a++) {
 			n_arbusto.push(new Bush());
@@ -38,14 +38,14 @@
 		}
 		
 		function arbusto_update() {
-			if (screen.scene == "FASE1") {
+			if (screen.scene == "LEVEL1") {
 				for (var a in n_arbusto) {
 					n_arbusto[a].update();
 				}
 			}
 		}
 		
-		var n_pedra = [];
+		var n_pedra = new Array();
 		var MIX = 15;
 		for (var p = 0; p <= MIX; p++) {
 			n_pedra.push(new Rock());
@@ -59,14 +59,14 @@
 		}
 		
 		function pedra_update() {
-			if (screen.scene == "FASE2") {
+			if (screen.scene == "LEVEL2") {
 				for (var p in n_pedra) {
 					n_pedra[p].update();
 				}
 			}
 		}
 		
-		var n_morcego2 = [];
+		var n_morcego2 = new Array();
 		var MUX = 8;
 		for (var m = 0; m <= MUX; m++) {
 			n_morcego2.push(new Bat(2));
@@ -80,14 +80,14 @@
 		}
 		
 		function morcego2_update() {
-			if (screen.scene == "FASE2") {
+			if (screen.scene == "LEVEL2") {
 				for (var m in n_morcego2) {
 					n_morcego2[m].update();
 				}
 			}
 		}
 		
-		var n_barril = [];
+		var n_barril = new Array();
 		var MAX = 25;
 		for (var b = 0; b <= MAX; b++) {
 			n_barril.push(new Barrel());
@@ -101,14 +101,14 @@
 		}
 		
 		function barril_update() {
-			if (screen.scene == "FASE3") {
+			if (screen.scene == "LEVEL3") {
 				for (var b in n_barril) {
 					n_barril[b].update();
 				}
 			}
 		}
 		
-		var n_morcego = [];
+		var n_morcego = new Array();
 		var MOX = 16;
 		for (var m = 0; m <= MOX; m++) {
 			n_morcego.push(new Bat(1));
@@ -122,7 +122,7 @@
 		}
 		
 		function morcego_update() {
-			if (screen.scene == "FASE3") {
+			if (screen.scene == "LEVEL3") {
 				for (var m in n_morcego) {
 					n_morcego[m].update();
 				}
@@ -132,10 +132,10 @@
 		var _keyDown = function(e) {
 			switch (e.keyCode) {
 				case 32:
-					if( screen.scene == "FASE3" && !screen.PAUSE || screen.scene == "FASE1" && !screen.PAUSE || screen.scene == "FASE2" && !screen.PAUSE) {
+					if( screen.scene == "LEVEL3" && !screen.pause || screen.scene == "LEVEL1" && !screen.pause || screen.scene == "LEVEL2" && !screen.pause) {
 						runner.jump();
 						
-						if(screen.MUSICA && !screen.PAUSE) {
+						if(screen.soundOn && !screen.pause) {
 							screen.cavalo_pulo_audio.play();
 						}
 					}
@@ -146,29 +146,29 @@
 					break;
 					
 				case 80:
-					if ( screen.scene == "FASE3" && !screen.WIN || screen.scene == "FASE1" && !screen.WIN || screen.scene == "FASE2" && !screen.WIN) {
-						screen.PAUSE = !screen.PAUSE;
+					if ( screen.scene == "LEVEL3" && !screen.winning || screen.scene == "LEVEL1" && !screen.winning || screen.scene == "LEVEL2" && !screen.winning) {
+						screen.pause = !screen.pause;
 						
-						if(screen.PAUSE && screen.MUSICA) {
+						if(screen.pause && screen.soundOn) {
 							screen.pause_click_audio.play();
 						}
 					}
 					break;
 					
 				case 90:
-					if (screen.scene == "FASE3" && !screen.PAUSE || screen.scene == "FASE1" && !screen.PAUSE || screen.scene == "FASE2" && !screen.PAUSE) {
+					if (screen.scene == "LEVEL3" && !screen.pause || screen.scene == "LEVEL1" && !screen.pause || screen.scene == "LEVEL2" && !screen.pause) {
 						for (var m = 0; m < MOX; m++) {
 							if( n_morcego[m].x <= 320 && n_morcego[m].x >= 115 &&
 								runner.colliderY <= 350 && !runner.caseJump) {
 								n_morcego[m].speed_x = -20;
 								n_morcego[m].speed_y = 15;
 							
-								if(screen.MUSICA && !screen.PAUSE) {
+								if(screen.soundOn && !screen.pause) {
 									screen.morcego_morto_audio.play();
 									screen.espadada_audio.play();
 								}
 								
-							} else if(screen.MUSICA && !screen.PAUSE && !runner.jump.case) {
+							} else if(screen.soundOn && !screen.pause && !runner.jump.case) {
 								screen.espadada_erro_audio.play();
 							}
 						}
@@ -179,12 +179,12 @@
 								n_morcego2[m].speed_x = -20;
 								n_morcego2[m].speed_y = 15;
 								
-								if(screen.MUSICA && !screen.PAUSE) {
+								if(screen.soundOn && !screen.pause) {
 									screen.morcego_morto_audio.play();
 									screen.espadada_audio.play();
 								}
 								
-							} else if(screen.MUSICA && !screen.PAUSE && !runner.jump.case) {
+							} else if(screen.soundOn && !screen.pause && !runner.jump.case) {
 								screen.espadada_erro_audio.play();
 							}
 						}
@@ -210,7 +210,7 @@
 				}
 			}
 				
-				if (screen.scene == "OPCOES") {
+				if (screen.scene == "OPTIONS") {
 					if ((e.x - canvas.offsetLeft > screen.botao_voltar_x) && (e.x - canvas.offsetLeft < screen.botao_voltar_x + screen.botao_voltar_w) &&
 						(e.y > screen.botao_voltar_y) && (e.y < screen.botao_voltar_y + screen.botao_voltar_h)) {
 						screen.botao_voltar_x = 567;
@@ -240,7 +240,7 @@
 					}
 				}
 				
-				if (screen.scene == "CREDITOS") {
+				if (screen.scene == "CREDITS") {
 					if ((e.x - canvas.offsetLeft > screen.botao_voltar_x) && (e.x - canvas.offsetLeft < screen.botao_voltar_x + screen.botao_voltar_w) &&
 						(e.y > screen.botao_voltar_y) && (e.y < screen.botao_voltar_y + screen.botao_voltar_h)) {
 						screen.botao_voltar_x = 567;
@@ -255,7 +255,7 @@
 					}
 				}
 				
-				if (screen.scene == "MENU" || screen.PAUSE) {
+				if (screen.scene == "MENU" || screen.pause) {
 					if ((e.x - canvas.offsetLeft > screen.botao_musica_x) && (e.x - canvas.offsetLeft < screen.botao_musica_x + screen.botao_musica_w) &&
 						(e.y > screen.botao_musica_y) && (e.y < screen.botao_musica_y + screen.botao_musica_h)) {
 						screen.botao_musica_x = 5;
@@ -285,7 +285,7 @@
 					}
 				}
 				
-				if (screen.scene == "LOOSE") {
+				if (screen.scene == "LOSS") {
 					if ((e.x - canvas.offsetLeft > screen.botao_loose_sair_x) && (e.x - canvas.offsetLeft < screen.botao_loose_sair_x + screen.botao_loose_sair_w) &&
 						(e.y > screen.botao_loose_sair_y) && (e.y < screen.botao_loose_sair_y + screen.botao_loose_sair_h)) {
 						screen.botao_loose_sair_x = 95;
@@ -300,7 +300,7 @@
 					}
 				}
 					
-				if (screen.scene == "LOOSE") {
+				if (screen.scene == "LOSS") {
 					if ((e.x - canvas.offsetLeft > screen.botao_loose_voltar_x) && (e.x - canvas.offsetLeft < screen.botao_loose_voltar_x + screen.botao_loose_voltar_w) &&
 						(e.y > screen.botao_loose_voltar_y) && (e.y < screen.botao_loose_voltar_y + screen.botao_loose_voltar_h)) {
 						screen.botao_loose_voltar_x = 487;
@@ -315,7 +315,7 @@
 					}
 				}
 				
-				if(screen.PAUSE) {
+				if(screen.pause) {
 					if ((e.x - canvas.offsetLeft > screen.botao_pause_sair_x) && (e.x - canvas.offsetLeft < screen.botao_pause_sair_x + screen.botao_pause_sair_w) &&
 						(e.y > screen.botao_pause_sair_y) && (e.y < screen.botao_pause_sair_y + screen.botao_pause_sair_h)) {
 						screen.botao_pause_sair_x = 291;
@@ -334,20 +334,20 @@
 			if (screen.scene == "MENU") {
 				if ((e.x - canvas.offsetLeft > screen.botao_opcoes_x) && (e.x - canvas.offsetLeft < screen.botao_opcoes_x + screen.botao_opcoes_w) &&
 					(e.y > screen.botao_opcoes_y) && (e.y < screen.botao_opcoes_y + screen.botao_opcoes_h)) {
-					screen.scene = "OPCOES";
+					screen.scene = "OPTIONS";
 					
-					if(screen.MUSICA) {
+					if(screen.soundOn) {
 						screen.botao_audio.play();
 					}
 				}
 			}
 			
-			if (screen.scene == "OPCOES") {
+			if (screen.scene == "OPTIONS") {
 				if ((e.x - canvas.offsetLeft > screen.botao_voltar_x) && (e.x - canvas.offsetLeft < screen.botao_voltar_x + screen.botao_voltar_w) &&
 					(e.y > screen.botao_voltar_y) && (e.y < screen.botao_voltar_y + screen.botao_voltar_h)) {
 					screen.scene = "MENU";
 					
-					if(screen.MUSICA) {
+					if(screen.soundOn) {
 						screen.botao_audio.play();
 					}
 				}
@@ -356,31 +356,31 @@
 			if (screen.scene == "MENU") {
 				if ((e.x - canvas.offsetLeft > screen.botao_creditos_x) && (e.x - canvas.offsetLeft < screen.botao_creditos_x + screen.botao_creditos_w) &&
 					(e.y > screen.botao_creditos_y) && (e.y < screen.botao_creditos_y + screen.botao_creditos_h)) {
-					screen.scene = "CREDITOS";
+					screen.scene = "CREDITS";
 					
-					if(screen.MUSICA) {
+					if(screen.soundOn) {
 						screen.botao_audio.play();
 					}
 				}
 			}
 			
-			if (screen.scene == "CREDITOS") {
+			if (screen.scene == "CREDITS") {
 				if ((e.x - canvas.offsetLeft > screen.botao_voltar_x) && (e.x - canvas.offsetLeft < screen.botao_voltar_x + screen.botao_voltar_w) &&
 					(e.y > screen.botao_voltar_y) && (e.y < screen.botao_voltar_y + screen.botao_voltar_h)) {
 					screen.scene = "MENU";
 					
-					if(screen.MUSICA) {
+					if(screen.soundOn) {
 						screen.botao_audio.play();
 					}
 				}
 			}
 			
-			if (screen.scene == "MENU" || screen.PAUSE) {
+			if (screen.scene == "MENU" || screen.pause) {
 				if ((e.x - canvas.offsetLeft > screen.botao_musica_x) && (e.x - canvas.offsetLeft < screen.botao_musica_x + screen.botao_musica_w) &&
 					(e.y > screen.botao_musica_y) && (e.y < screen.botao_musica_y + screen.botao_musica_h)) {
-					screen.MUSICA = !screen.MUSICA;
+					screen.soundOn = !screen.soundOn;
 					
-					if(screen.MUSICA) {
+					if(screen.soundOn) {
 						screen.botao_audio.play();
 					}
 				}
@@ -389,19 +389,19 @@
 			if (screen.scene == "MENU") {
 				if ((e.x - canvas.offsetLeft > screen.botao_play_x) && (e.x - canvas.offsetLeft < screen.botao_play_x + screen.botao_play_w) &&
 					(e.y > screen.botao_play_y) && (e.y < screen.botao_play_y + screen.botao_play_h)) {
-					screen.scene = "FASE1";
+					screen.scene = "LEVEL1";
 					
-					if(screen.MUSICA) {
+					if(screen.soundOn) {
 						screen.botao_audio.play();
 					}
 				}
 			}
 			
-			if (screen.scene == "LOOSE") {
+			if (screen.scene == "LOSS") {
 				if ((e.x - canvas.offsetLeft > screen.botao_loose_sair_x) && (e.x - canvas.offsetLeft < screen.botao_loose_sair_x + screen.botao_loose_sair_w) &&
 					(e.y > screen.botao_loose_sair_y) && (e.y < screen.botao_loose_sair_y + screen.botao_loose_sair_h)) {
 					screen.scene = "MENU";
-					screen.WIN = false;
+					screen.winning = false;
 					
 					for (var a = 0; a <= MEX; a++) {
 						n_arbusto.splice(a);
@@ -477,28 +477,28 @@
 					runner.moveUp1 = false;
 					caseJump = true;
 					caseJump2 = true;
-					screen.lua_x = 400;
-					screen.pedro_barra_x = 200;
+					screen.moonX = 400;
+					screen.playerMapX = 200;
 					
-					if(screen.MUSICA) {
+					if(screen.soundOn) {
 						screen.botao_audio.play();
 					}
 				}
 			}
 				
-			if (screen.scene == "LOOSE") {
+			if (screen.scene == "LOSS") {
 				if ((e.x - canvas.offsetLeft > screen.botao_loose_voltar_x) && (e.x - canvas.offsetLeft < screen.botao_loose_voltar_x + screen.botao_loose_voltar_w) &&
 					(e.y > screen.botao_loose_voltar_y) && (e.y < screen.botao_loose_voltar_y + screen.botao_loose_voltar_h)) {
-					if(screen.FASE1) {
-						screen.scene = "FASE1";
+					if(screen.levelOne) {
+						screen.scene = "LEVEL1";
 					}
 					
-					if(screen.FASE2) {
-						screen.scene = "FASE2";
+					if(screen.levelTwo) {
+						screen.scene = "LEVEL2";
 					}
 					
-					if(screen.FASE3) {
-						screen.scene = "FASE3";
+					if(screen.levelThree) {
+						screen.scene = "LEVEL3";
 					}
 					
 					for (var a = 0; a <= MEX; a++) {
@@ -576,20 +576,20 @@
 					runner.moveUp1 = false;
 					caseJump = true;
 					caseJump2 = true;
-					screen.lua_x = 400;
-					screen.pedro_barra_x = 200;
+					screen.moonX = 400;
+					screen.playerMapX = 200;
 					
-					if(screen.MUSICA) {
+					if(screen.soundOn) {
 						screen.botao_audio.play();
 					}
 				}
 			}
 			
-			if(screen.PAUSE) {
+			if(screen.pause) {
 				if ((e.x - canvas.offsetLeft > screen.botao_pause_sair_x) && (e.x - canvas.offsetLeft < screen.botao_pause_sair_x + screen.botao_pause_sair_w) &&
 					(e.y > screen.botao_pause_sair_y) && (e.y < screen.botao_pause_sair_y + screen.botao_pause_sair_h)) {
 					screen.scene = "MENU";
-					screen.PAUSE = false;
+					screen.pause = false;
 					
 					for (var a = 0; a <= MEX; a++) {
 						n_arbusto.splice(a);
@@ -665,11 +665,11 @@
 					runner.moveUp1 = false;
 					caseJump = true;
 					caseJump2 = true;
-					screen.lua_x = 400;
-					screen.pedro_barra_x = 200;
+					screen.moonX = 400;
+					screen.playerMapX = 200;
 				}
 				
-				if(screen.MUSICA) {
+				if(screen.soundOn) {
 					screen.botao_audio.play();
 				}
 			}
@@ -680,32 +680,32 @@
 		document.addEventListener("mousemove", _mouseMove, true);
 		
 		var verificando_win = function() {
-			if(screen.scene == "FASE1") {
+			if(screen.scene == "LEVEL1") {
 				for (var a = 0; a <= MEX; a++) {
 					if(n_arbusto[MEX].x + n_arbusto[MEX].w <= 0) {
-						screen.WIN = true;
+						screen.winning = true;
 					}
 				}
 			}
-			if(screen.scene == "FASE2") {
+			if(screen.scene == "LEVEL2") {
 				for (var p = 0; p <= MIX; p++) {
 					for (var m = 0; m <= MUX; m++) {
 						if(n_pedra[MIX].x + n_pedra[MIX].w <= 0) {
 							if (n_morcego2[MUX].x + n_morcego2[MUX].w <= 0 ||
 								n_morcego2[MUX].y + n_morcego2[MUX].h <= 0) {
-								screen.WIN = true;
+								screen.winning = true;
 							}
 						}
 					}
 				}
 			}
-			if(screen.scene == "FASE3") {
+			if(screen.scene == "LEVEL3") {
 				for (var b = 0; b <= MAX; b++) {
 					for (var m = 0; m <= MOX; m++) {
 						if(n_barril[MAX].x + n_barril[MAX].w <= 0) {
 							if (n_morcego[MOX].x + n_morcego[MOX].w <= 0 ||
 								n_morcego[MOX].y + n_morcego[MOX].h <= 0) {
-								screen.WIN = true;
+								screen.winning = true;
 							}
 						}
 					}
@@ -723,37 +723,37 @@
 			runner.moveUp1 = false;
 			caseJump = true;
 			caseJump2 = true;
-			screen.lua_x = 400;
-			screen.vassoura_y = -600;
-			screen.PASSAR_LEVEL = false;
-			screen.WIN = false;
+			screen.moonX = 400;
+			screen.broomY = -600;
+			screen.nextLevel = false;
+			screen.winning = false;
 			screen.win_audio.currentTime = 0;
-			screen.pedro_barra_x = 200;
+			screen.playerMapX = 200;
 			
-			if(screen.FASE1){
-				screen.FASE1 = false;
-				screen.FASE2 = true;
+			if(screen.levelOne){
+				screen.levelOne = false;
+				screen.levelTwo = true;
 			}
-			if(screen.FASE2){
-				screen.FASE2 = false;
-				screen.FASE3 = true;
+			if(screen.levelTwo){
+				screen.levelTwo = false;
+				screen.levelThree = true;
 			}
-			if(screen.FASE3){
-				screen.FASE3 = false;
+			if(screen.levelThree){
+				screen.levelThree = false;
 			}
 		}
 		
 		var update = function() {
-			if(screen.scene == "FASE3" && !screen.PAUSE) {
+			if(screen.scene == "LEVEL3" && !screen.pause) {
 				runner.update();
 				barril_update();
 				morcego_update();
 			}
-			if(screen.scene == "FASE1" && !screen.PAUSE) {
+			if(screen.scene == "LEVEL1" && !screen.pause) {
 				runner.update();
 				arbusto_update();
 			}
-			if(screen.scene == "FASE2" && !screen.PAUSE) {
+			if(screen.scene == "LEVEL2" && !screen.pause) {
 				runner.update();
 				pedra_update();
 				morcego2_update();
@@ -761,7 +761,7 @@
 			screen.update();
 			verificando_win();
 
-			if(screen.PASSAR_LEVEL) {
+			if(screen.nextLevel) {
 				reiniciando();
 			}
 		}
@@ -778,6 +778,5 @@
 
 		loop();
 	</script>
-
+	</body>
 </html>
-</body>
