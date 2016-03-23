@@ -1,4 +1,4 @@
-var Tela = function() {
+var Screen = function() {
 
 	this.scene = "SPLASHSCREEN";
 	
@@ -10,7 +10,7 @@ var Tela = function() {
 	this.FASE2 = false;
 	this.FASE3 = false;
 	
-	this.numMortes = localStorage.getItem("mortes") === null ? 0 : localStorage.getItem("mortes");
+	this.deathToll = localStorage.getItem("mortes") === null ? 0 : localStorage.getItem("mortes");
 	
 	this.menu_fundo = new Image();
 	this.menu_fundo.src = "IMAGEM/Menu/Fundo_Estatico.png";
@@ -297,15 +297,15 @@ var Tela = function() {
 			this.fundo2_fase2_speed = 0;
 		}
 		
-		if(this.scene == "FASE1" && runner.x >= 100 && !tela.PAUSE) {
+		if(this.scene == "FASE1" && runner.x >= 100 && !screen.PAUSE) {
 			this.pedro_barra_x += this.pedro_barra_speed;
 		}
 		
-		if(this.scene == "FASE2" && runner.x >= 100 && !tela.PAUSE) {
+		if(this.scene == "FASE2" && runner.x >= 100 && !screen.PAUSE) {
 			this.pedro_barra_x += this.pedro_barra_speed;
 		}
 		
-		if(this.scene == "FASE3" && runner.x >= 100 && !tela.PAUSE) {
+		if(this.scene == "FASE3" && runner.x >= 100 && !screen.PAUSE) {
 			this.pedro_barra_x += this.pedro_barra_speed;
 		}
 		
@@ -524,15 +524,15 @@ var Tela = function() {
 		
 		this.currentFrame4 += delta * 10;
 		
-		if(tela.scene == "FASE3" && this.vassoura_y >= 0) {
+		if(screen.scene == "FASE3" && this.vassoura_y >= 0) {
 			this.currentFrame5 += delta * 15;
 		}
 		
-		if(tela.scene == "FASE1" && runner.x >= 840) {
+		if(screen.scene == "FASE1" && runner.x >= 840) {
 			this.currentFrame5 += delta * 15;
 		}
 		
-		if(tela.scene == "FASE2" && runner.x >= 840) {
+		if(screen.scene == "FASE2" && runner.x >= 840) {
 			this.currentFrame5 += delta * 15;
 		}
 	}
@@ -725,9 +725,9 @@ var Tela = function() {
 		if (this.scene == 'CREDITOS'){
 			context.clearRect(0,0,canvas.width,canvas.height);
 			context.drawImage(this.menu_fundo, 0, 0, canvas.width, canvas.height);
-			context.drawImage(this.fundo_creditos, 0, 0);
 			context.drawImage(this.nuvens1, this.nuvens_x, this.nuvens_y, this.nuvens_w, this.nuvens_h);
 			context.drawImage(this.nuvens2, this.nuvens2_x, this.nuvens2_y, this.nuvens_w, this.nuvens_h);
+			context.drawImage(this.fundo_creditos, 0, 0);
 			context.drawImage(this.castelo_animacao[Math.floor(this.currentFrame) % this.numFrames_castelo], this.castelo_x, this.castelo_y);
 			context.drawImage(this.botao_voltar, this.botao_voltar_x, this.botao_voltar_y, this.botao_voltar_w, this.botao_voltar_h);
 		}
@@ -745,7 +745,7 @@ var Tela = function() {
 			context.drawImage(this.pedro_barra, this.pedro_barra_x, this.pedro_barra_y, this.pedro_barra_w, this.pedro_barra_h);
 			context.fillStyle = "WHITE";
 			context.font = "30px Arial";
-			context.fillText("Mortes: " + this.numMortes, 40, 57);
+			context.fillText("Mortes: " + this.deathToll, 40, 57);
 			
 			runner.draw();
 			
@@ -775,7 +775,7 @@ var Tela = function() {
 			context.drawImage(this.pedro_barra, this.pedro_barra_x, this.pedro_barra_y, this.pedro_barra_w, this.pedro_barra_h);
 			context.fillStyle = "WHITE";
 			context.font = "30px Arial";
-			context.fillText("Mortes: " + this.numMortes, 40, 57);
+			context.fillText("Mortes: " + this.deathToll, 40, 57);
 			
 			runner.draw();
 			
@@ -803,7 +803,7 @@ var Tela = function() {
 			context.drawImage(this.floor2, this.floor2_x, this.floor2_y, this.floor_w, this.floor_h);
 			context.fillStyle = "WHITE";
 			context.font = "30px Arial";
-			context.fillText("Mortes: " + this.numMortes, 40, 57);
+			context.fillText("Mortes: " + this.deathToll, 40, 57);
 			
 			runner.draw();
 			
@@ -856,34 +856,34 @@ var Tela = function() {
 			} else {
 				this.loose_audio.pause();
 			}
-			if (this.scene == "FASE3" && !tela.WIN) {
+			if (this.scene == "FASE3" && !screen.WIN) {
 				this.jogo_audio.play();
 			} else {
 				this.jogo_audio.pause();
 			}
-			if(runner.pulo_case && this.scene == "FASE3" && !tela.PAUSE) {
+			if(runner.caseJump && this.scene == "FASE3" && !screen.PAUSE) {
 				this.cavalo_audio.play();
 			} else {
 				this.cavalo_audio.pause();
 			}
-			if (this.scene == "FASE2" && !tela.WIN) {
+			if (this.scene == "FASE2" && !screen.WIN) {
 				this.fase2_audio.play();
 				this.fase2_musica.play();
 			} else {
 				this.fase2_audio.pause();
 				this.fase2_musica.pause();
 			}
-			if (this.scene == "FASE1" && !tela.WIN) {
+			if (this.scene == "FASE1" && !screen.WIN) {
 				this.fase1_musica.play();
 			} else {
 				this.fase1_musica.pause();
 			}
-			if (tela.scene == "FASE1" && tela.WIN || tela.scene == "FASE2" && tela.WIN) {
+			if (screen.scene == "FASE1" && screen.WIN || screen.scene == "FASE2" && screen.WIN) {
 				this.win_audio.play();
 			} else {
 				this.win_audio.pause();
 			}
-			if (tela.scene == "FASE3" && tela.WIN) {
+			if (screen.scene == "FASE3" && screen.WIN) {
 				this.win_audio2.play();
 			} else {
 				this.win_audio2.pause();
