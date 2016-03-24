@@ -9,9 +9,10 @@
 			</canvas>
 		</center>
 		
-		<script src="js/runner.js"></script>
-		<script src="js/button.js"></script>
+		<script src="js/manager.js"></script>
 		<script src="js/screen.js"></script>
+		<script src="js/button.js"></script>
+		<script src="js/runner.js"></script>
 		<script src="js/bush.js"></script>
 		<script src="js/rock.js"></script>
 		<script src="js/barrel.js"></script>
@@ -22,7 +23,7 @@
 		var context = canvas.getContext("2d");
 		
 		var screen = new Screen();
-		
+		var manager = new Manager();
 		var runner =  new Runner();
 
 		var n_arbusto = new Array();
@@ -133,43 +134,28 @@
 		var keyDown = function(e) {
 			switch (e.keyCode) {
 				case 32:
-					if( screen.scene == "LEVEL3" && !screen.pause || screen.scene == "LEVEL1" && !screen.pause || screen.scene == "LEVEL2" && !screen.pause) {
-						runner.jump();
-						
-						if(screen.soundOn && !screen.pause) {
-							screen.cavalo_pulo_audio.play();
-						}
-					}
-					
-					if (screen.scene == "SPLASHSCREEN") {
-						screen.scene = "MENU";
-					}
+					runner.jump();
+					manager.clickSplashScreen();
 					break;
 					
 				case 80:
-					if ( screen.scene == "LEVEL3" && !screen.winning || screen.scene == "LEVEL1" && !screen.winning || screen.scene == "LEVEL2" && !screen.winning) {
-						screen.pause = !screen.pause;
-						
-						if(screen.pause && screen.soundOn) {
-							screen.pause_click_audio.play();
-						}
-					}
+					manager.clickPause();
 					break;
 					
 				case 90:
-					if (screen.scene == "LEVEL3" && !screen.pause || screen.scene == "LEVEL1" && !screen.pause || screen.scene == "LEVEL2" && !screen.pause) {
+					if ((screen.scene == "LEVEL1" || screen.scene == "LEVEL2" || screen.scene == "LEVEL3") && !manager.pause) {
 						for (var m = 0; m < MOX; m++) {
 							if( n_morcego[m].x <= 320 && n_morcego[m].x >= 115 &&
 								runner.colliderY <= 350 && !runner.caseJump) {
 								n_morcego[m].speed_x = -20;
 								n_morcego[m].speed_y = 15;
 							
-								if(screen.soundOn && !screen.pause) {
+								if(manager.soundOn && !manager.pause) {
 									screen.morcego_morto_audio.play();
 									screen.espadada_audio.play();
 								}
 								
-							} else if(screen.soundOn && !screen.pause && !runner.jump.case) {
+							} else if(manager.soundOn && !manager.pause && !runner.jump.case) {
 								screen.espadada_erro_audio.play();
 							}
 						}
@@ -180,12 +166,12 @@
 								n_morcego2[m].speed_x = -20;
 								n_morcego2[m].speed_y = 15;
 								
-								if(screen.soundOn && !screen.pause) {
+								if(manager.soundOn && !manager.pause) {
 									screen.morcego_morto_audio.play();
 									screen.espadada_audio.play();
 								}
 								
-							} else if(screen.soundOn && !screen.pause && !runner.jump.case) {
+							} else if(manager.soundOn && !manager.pause && !runner.jump.case) {
 								screen.espadada_erro_audio.play();
 							}
 						}
@@ -194,6 +180,7 @@
 					break;
 			}
 		}
+		
 		var mouseMove = function(e) {
 			screen.optionsButton.mouseOver(e);
 			screen.soundButton.mouseOver(e);
@@ -204,8 +191,8 @@
 			screen.lossMenuButton.mouseOver(e);
 			screen.lossGameButton.mouseOver(e);
 			screen.pauseMenuButton.mouseOver(e);
-			
 		}
+		
 		var mouseClick = function(e) {
 			screen.optionsButton.click(e);
 			screen.soundButton.click(e);
@@ -216,284 +203,6 @@
 			screen.lossMenuButton.click(e);
 			screen.lossGameButton.click(e);
 			screen.pauseMenuButton.click(e);
-			
-			
-			/*if (screen.scene == "LOSS") {
-				if ((e.x - canvas.offsetLeft > screen.botao_loose_sair_x) && (e.x - canvas.offsetLeft < screen.botao_loose_sair_x + screen.botao_loose_sair_w) &&
-					(e.y > screen.botao_loose_sair_y) && (e.y < screen.botao_loose_sair_y + screen.botao_loose_sair_h)) {
-					screen.scene = "MENU";
-					screen.winning = false;
-					
-					for (var a = 0; a <= MEX; a++) {
-						n_arbusto.splice(a);
-						
-						n_arbusto.push(new Bush());
-
-						if (a > 0) {
-							n_arbusto[a].x = n_arbusto[a - 1].x + n_arbusto[a].w +
-													runner.w + 300 + Math.floor(Math.random() * 500);
-						} else {
-							n_arbusto[a].x = canvas.width + 30;
-						}
-					}
-					
-					for (var p = 0; p <= MIX; p++) {
-						n_pedra.splice(p);
-						
-						n_pedra.push(new Rock());
-
-						if (p > 0) {
-							n_pedra[p].x = n_pedra[p - 1].x + n_pedra[p].w +
-													runner.w + 500 + Math.floor(Math.random() * 500);
-						} else {
-							n_pedra[p].x = canvas.width + 30;
-						}
-					}
-					
-					for (var m = 0; m <= MUX; m++) {
-						n_morcego2.splice(m);
-					
-						n_morcego2.push(new Bat(2));
-			
-						if (m > 0) {
-							n_morcego2[m].x = n_morcego2[m - 1].x + n_morcego2[m].w +
-													runner.w + 1700 + Math.floor(Math.random(250) * 500);
-						} else {
-							n_morcego2[m].x = canvas.width + 500 + Math.floor(Math.random() * 500);;
-						}
-					}
-					
-					for (var b = 0; b <= MAX; b++) {
-						n_barril.splice(b);
-						
-						n_barril.push(new Barrel());
-
-						if (b > 0) {
-							n_barril[b].x = n_barril[b - 1].x + n_barril[b].w +
-													runner.w + 300 + Math.floor(Math.random() * 500);
-						} else {
-							n_barril[b].x = canvas.width + 30;
-						}
-					}
-							
-					for (var m = 0; m <= MOX; m++) {
-						n_morcego.splice(m);
-					
-						n_morcego.push(new Bat(1));
-			
-						if (m > 0) {
-							n_morcego[m].x = n_morcego[m - 1].x + n_morcego[m].w +
-													runner.w + 1000 + Math.floor(Math.random(250) * 500);
-						} else {
-							n_morcego[m].x = canvas.width + 500 + Math.floor(Math.random() * 500);;
-						}
-					}
-					
-					runner.colliderX = 133;
-					runner.colliderY = 385;
-					runner.x = -120;
-					runner.speedX = 8;
-					runner.y = 375;
-					runner.moveUp = false;
-					runner.moveUp1 = false;
-					caseJump = true;
-					caseJump2 = true;
-					screen.moonX = 400;
-					screen.playerMapX = 200;
-					
-					if(screen.soundOn) {
-						screen.botao_audio.play();
-					}
-				}
-			}
-				
-			if (screen.scene == "LOSS") {
-				if ((e.x - canvas.offsetLeft > screen.botao_loose_voltar_x) && (e.x - canvas.offsetLeft < screen.botao_loose_voltar_x + screen.botao_loose_voltar_w) &&
-					(e.y > screen.botao_loose_voltar_y) && (e.y < screen.botao_loose_voltar_y + screen.botao_loose_voltar_h)) {
-					if(screen.levelOne) {
-						screen.scene = "LEVEL1";
-					}
-					
-					if(screen.levelTwo) {
-						screen.scene = "LEVEL2";
-					}
-					
-					if(screen.levelThree) {
-						screen.scene = "LEVEL3";
-					}
-					
-					for (var a = 0; a <= MEX; a++) {
-						n_arbusto.splice(a);
-						
-						n_arbusto.push(new Bush());
-
-						if (a > 0) {
-							n_arbusto[a].x = n_arbusto[a - 1].x + n_arbusto[a].w +
-											runner.w + 300 + Math.floor(Math.random() * 500);
-						} else {
-							n_arbusto[a].x = canvas.width + 30;
-						}
-					}
-					
-					
-					for (var p = 0; p <= MIX; p++) {
-						n_pedra.splice(p);
-						
-						n_pedra.push(new Rock());
-
-						if (p > 0) {
-							n_pedra[p].x = n_pedra[p - 1].x + n_pedra[p].w +
-											runner.w + 500 + Math.floor(Math.random() * 500);
-						} else {
-							n_pedra[p].x = canvas.width + 30;
-						}
-					}
-					
-					for (var m = 0; m <= MUX; m++) {
-						n_morcego2.splice(m);
-					
-						n_morcego2.push(new Bat(2));
-			
-						if (m > 0) {
-							n_morcego2[m].x = n_morcego2[m - 1].x + n_morcego2[m].w +
-													runner.w + 1700 + Math.floor(Math.random(250) * 500);
-						} else {
-							n_morcego2[m].x = canvas.width + 500 + Math.floor(Math.random() * 500);;
-						}
-					}
-					
-					for (var b = 0; b <= MAX; b++) {
-						n_barril.splice(b);
-						
-						n_barril.push(new Barrel());
-
-						if (b > 0) {
-							n_barril[b].x = n_barril[b - 1].x + n_barril[b].w +
-											runner.w + 300 + Math.floor(Math.random() * 500);
-						} else {
-							n_barril[b].x = canvas.width + 30;
-						}
-					}
-								
-					for (var m = 0; m <= MOX; m++) {
-						n_morcego.splice(m);
-						
-						n_morcego.push(new Bat(1));
-				
-						if (m > 0) {
-							n_morcego[m].x = n_morcego[m - 1].x + n_morcego[m].w +
-											runner.w + 1000 + Math.floor(Math.random(250) * 500);
-						} else {
-							n_morcego[m].x = canvas.width + 500 + Math.floor(Math.random() * 500);;
-						}
-					}
-					
-					runner.colliderX = 133;
-					runner.colliderY = 385;
-					runner.x = -120;
-					runner.speedX = 8;
-					runner.y = 375;
-					runner.moveUp = false;
-					runner.moveUp1 = false;
-					caseJump = true;
-					caseJump2 = true;
-					screen.moonX = 400;
-					screen.playerMapX = 200;
-					
-					if(screen.soundOn) {
-						screen.botao_audio.play();
-					}
-				}
-			}
-			
-			if(screen.pause) {
-				if ((e.x - canvas.offsetLeft > screen.botao_pause_sair_x) && (e.x - canvas.offsetLeft < screen.botao_pause_sair_x + screen.botao_pause_sair_w) &&
-					(e.y > screen.botao_pause_sair_y) && (e.y < screen.botao_pause_sair_y + screen.botao_pause_sair_h)) {
-					screen.scene = "MENU";
-					screen.pause = false;
-					
-					for (var a = 0; a <= MEX; a++) {
-						n_arbusto.splice(a);
-						
-						n_arbusto.push(new Bush());
-
-						if (a > 0) {
-							n_arbusto[a].x = n_arbusto[a - 1].x + n_arbusto[a].w +
-													runner.w + 300 + Math.floor(Math.random() * 500);
-						} else {
-							n_arbusto[a].x = canvas.width + 30;
-						}
-					}
-					
-					for (var p = 0; p <= MIX; p++) {
-						n_pedra.splice(p);
-						
-						n_pedra.push(new Rock());
-
-						if (p > 0) {
-							n_pedra[p].x = n_pedra[p - 1].x + n_pedra[p].w +
-											runner.w + 500 + Math.floor(Math.random() * 500);
-						} else {
-							n_pedra[p].x = canvas.width + 30;
-						}
-					}
-					
-					for (var m = 0; m <= MUX; m++) {
-						n_morcego2.splice(m);
-					
-						n_morcego2.push(new Bat(2));
-			
-						if (m > 0) {
-							n_morcego2[m].x = n_morcego2[m - 1].x + n_morcego2[m].w +
-													runner.w + 1700 + Math.floor(Math.random(250) * 500);
-						} else {
-							n_morcego2[m].x = canvas.width + 500 + Math.floor(Math.random() * 500);;
-						}
-					}
-					
-					for (var b = 0; b <= MAX; b++) {
-						n_barril.splice(b);
-						
-						n_barril.push(new Barrel());
-
-						if (b > 0) {
-							n_barril[b].x = n_barril[b - 1].x + n_barril[b].w +
-											runner.w + 300 + Math.floor(Math.random() * 500);
-						} else {
-							n_barril[b].x = canvas.width + 30;
-						}
-					}
-							
-					for (var m = 0; m <= MOX; m++) {
-						n_morcego.splice(m);
-					
-						n_morcego.push(new Bat(1));
-			
-						if (m > 0) {
-							n_morcego[m].x = n_morcego[m - 1].x + n_morcego[m].w +
-											runner.w + 1000 + Math.floor(Math.random(250) * 500);
-						} else {
-							n_morcego[m].x = canvas.width + 500 + Math.floor(Math.random() * 500);;
-						}
-					}
-					
-					runner.colliderX = 133;
-					runner.colliderY = 385;
-					runner.x = -120;
-					runner.speedX = 8;
-					runner.y = 375;
-					runner.moveUp = false;
-					runner.moveUp1 = false;
-					caseJump = true;
-					caseJump2 = true;
-					screen.moonX = 400;
-					screen.playerMapX = 200;
-				}
-				
-				if(screen.soundOn) {
-					screen.botao_audio.play();
-				}
-			}*/
 		}
 		
 		document.addEventListener("keydown", keyDown, true);
@@ -504,7 +213,7 @@
 			if(screen.scene == "LEVEL1") {
 				for (var a = 0; a <= MEX; a++) {
 					if(n_arbusto[MEX].x + n_arbusto[MEX].w <= 0) {
-						screen.winning = true;
+						manager.winning = true;
 					}
 				}
 			}
@@ -514,7 +223,7 @@
 						if(n_pedra[MIX].x + n_pedra[MIX].w <= 0) {
 							if (n_morcego2[MUX].x + n_morcego2[MUX].w <= 0 ||
 								n_morcego2[MUX].y + n_morcego2[MUX].h <= 0) {
-								screen.winning = true;
+								manager.winning = true;
 							}
 						}
 					}
@@ -526,7 +235,7 @@
 						if(n_barril[MAX].x + n_barril[MAX].w <= 0) {
 							if (n_morcego[MOX].x + n_morcego[MOX].w <= 0 ||
 								n_morcego[MOX].y + n_morcego[MOX].h <= 0) {
-								screen.winning = true;
+								manager.winning = true;
 							}
 						}
 					}
@@ -534,56 +243,31 @@
 			}
 		}
 		
-		var reiniciando = function() {
-			runner.colliderY = 385;
-			runner.colliderX = 133;
-			runner.x = -120;
-			runner.speedX = 8;
-			runner.y = 375;
-			runner.moveUp = false;
-			runner.moveUp1 = false;
-			caseJump = true;
-			caseJump2 = true;
-			screen.moonX = 400;
-			screen.broomY = -600;
-			screen.nextLevel = false;
-			screen.winning = false;
-			screen.win_audio.currentTime = 0;
-			screen.playerMapX = 200;
-			
-			if(screen.levelOne){
-				screen.levelOne = false;
-				screen.levelTwo = true;
-			}
-			if(screen.levelTwo){
-				screen.levelTwo = false;
-				screen.levelThree = true;
-			}
-			if(screen.levelThree){
-				screen.levelThree = false;
-			}
-		}
-		
 		var update = function() {
-			if(screen.scene == "LEVEL3" && !screen.pause) {
-				runner.update();
-				barril_update();
-				morcego_update();
-			}
-			if(screen.scene == "LEVEL1" && !screen.pause) {
+			if(screen.scene == "LEVEL1" && !manager.pause) {
 				runner.update();
 				arbusto_update();
 			}
-			if(screen.scene == "LEVEL2" && !screen.pause) {
+			if(screen.scene == "LEVEL2" && !manager.pause) {
 				runner.update();
 				pedra_update();
 				morcego2_update();
 			}
+			if(screen.scene == "LEVEL3" && !manager.pause) {
+				runner.update();
+				barril_update();
+				morcego_update();
+			}
 			screen.update();
 			verificando_win();
+			
+			if(screen.scene == "LOSS"){
+				manager.restart();
+			}
 
-			if(screen.nextLevel) {
-				reiniciando();
+			if(manager.nextLevel) {
+				manager.restart();
+				manager.passLevel();
 			}
 		}
 		

@@ -22,12 +22,12 @@ function Bush() {
 				screen.scene = "LOSS";
 			}
 			
-			if(screen.soundOn) {
+			if(manager.soundOn) {
 				screen.bateu_audio.play();
 				screen.cavalo_morreu_audio.play();
 			}
 			
-			screen.deathToll++;
+			manager.deathToll++;
 			localStorage.setItem("mortes", screen.deathToll);
 		}
 	}

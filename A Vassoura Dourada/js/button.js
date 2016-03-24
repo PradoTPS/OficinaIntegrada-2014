@@ -12,7 +12,7 @@ function CommomButton(x, y, imageSrc, here, next){
 	
 	this.mouseOver = function(e){
 		if(here == "PAUSE"){
-			if(screen.pause){
+			if(manager.pause){
 				this.innitialX = x;
 				this.innitialY = y;
 				this.innitialW = 208;
@@ -55,14 +55,14 @@ function CommomButton(x, y, imageSrc, here, next){
 	}
 	
 	this.click = function(e){
-		if(here = "PAUSE"){
-			if (screen.pause) {
+		if(here == "PAUSE"){
+			if (manager.pause) {
 				if ((e.x - canvas.offsetLeft > this.x) && (e.x - canvas.offsetLeft < this.x + this.w) &&
 					(e.y > this.y) && (e.y < this.y + this.h)) {
 					screen.scene = next;
-					screen.pause = false;
+					manager.pause = false;
 					
-					if(screen.soundOn) {
+					if(manager.soundOn) {
 						screen.botao_audio.play();
 					}
 				}
@@ -71,9 +71,19 @@ function CommomButton(x, y, imageSrc, here, next){
 			if (screen.scene == here) {
 				if ((e.x - canvas.offsetLeft > this.x) && (e.x - canvas.offsetLeft < this.x + this.w) &&
 					(e.y > this.y) && (e.y < this.y + this.h)) {
-					screen.scene = next;
+					if(next == "CURRENTLEVEL"){
+						if(manager.currentLevel == "levelOne"){
+							screen.scene = "LEVEL1";
+						} else if(manager.currentLevel == "levelTwo"){
+							screen.scene = "LEVEL2";
+						} else if(manager.currentLevel == "levelThree"){
+							screen.scene = "LEVEL3";
+						}
+					} else {
+						screen.scene = next;
+					}
 					
-					if(screen.soundOn) {
+					if(manager.soundOn) {
 						screen.botao_audio.play();
 					}
 				}
@@ -122,7 +132,7 @@ function DifferentButton(x, y, w, h, imageSrc, here, next){
 				(e.y > this.y) && (e.y < this.y + this.h)) {
 				screen.scene = next;
 				
-				if(screen.soundOn) {
+				if(manager.soundOn) {
 					screen.botao_audio.play();
 				}
 			}
@@ -141,7 +151,7 @@ function SoundButton(x, y, w, h, imageSrc, imageSrcOff, here){
 	this.imageOff.src = "IMAGEM/Botoes/" + imageSrcOff + ".png";
 	
 	this.draw = function(){
-		if(screen.soundOn){
+		if(manager.soundOn){
 			context.drawImage(this.imageOn, this.x, this.y, this.w, this.h);
 		} else {
 			context.drawImage(this.imageOff, this.x, this.y, this.w, this.h);
@@ -149,7 +159,7 @@ function SoundButton(x, y, w, h, imageSrc, imageSrcOff, here){
 	}
 	
 	this.mouseOver = function(e){
-		if(screen.scene == here || screen.pause){
+		if(screen.scene == here || manager.pause){
 			this.innitialX = x;
 			this.innitialY = y;
 			this.innitialW = w;
@@ -171,12 +181,12 @@ function SoundButton(x, y, w, h, imageSrc, imageSrcOff, here){
 	}
 	
 	this.click = function(e){
-		if (screen.scene == here || screen.pause) {
+		if (screen.scene == here || manager.pause) {
 			if ((e.x - canvas.offsetLeft > this.x) && (e.x - canvas.offsetLeft < this.x + this.w) &&
 				(e.y > this.y) && (e.y < this.y + this.h)) {
-				screen.soundOn = !screen.soundOn;
+				manager.soundOn = !manager.soundOn;
 				
-				if(screen.soundOn) {
+				if(manager.soundOn) {
 					screen.botao_audio.play();
 				}
 			}

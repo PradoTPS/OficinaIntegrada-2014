@@ -6,12 +6,14 @@ function Runner() {
 	this.weight = 12;
 	this.speedX = 8;
 	this.speedY = 12;
-	this.hittingW = 114;
-	this.hittingH = 132;
+	
 	this.colliderX = 133;
 	this.colliderY = 385;
 	this.colliderW = 84;
 	this.colliderH = 116;
+	
+	this.hittingW = 114;
+	this.hittingH = 132;
 	
 	this.moveUp = false;
 	this.moveUp1 = false;
@@ -82,9 +84,15 @@ function Runner() {
 	this.cavalo_pulo_audio.src = "AUDIO/Jogo/Cavalo/pulo_cavalo.mp3";
 		
 	this.jump = function() {
-		if (this.y + this.h >= 496) {
-			this.moveUp = true;
-			this.moveUp1 = true;
+		if((screen.scene == "LEVEL1" || screen.scene == "LEVEL2" || screen.scene == "LEVEL3") && !manager.pause && !manager.winning) {
+			if (this.y + this.h >= 496) {
+				this.moveUp = true;
+				this.moveUp1 = true;
+			}
+			
+			if(manager.soundOn && !manager.pause) {
+				screen.cavalo_pulo_audio.play();
+			}
 		}
 	}
 	
@@ -151,11 +159,11 @@ function Runner() {
 			this.speedX = 0
 		}
 
-		if(screen.winning) {
+		if(manager.winning) {
 			this.speedX = 4;
 		}
 		
-		if(screen.winning && screen.scene == "LEVEL1" || screen.winning && screen.scene == "LEVEL2") {
+		if(manager.winning && screen.scene == "LEVEL1" || manager.winning && screen.scene == "LEVEL2") {
 			if(this.x < 840) {
 				this.x += this.speedX;
 			}  else {
@@ -163,7 +171,7 @@ function Runner() {
 			}
 		}
 		
-		if(screen.winning && screen.scene == "LEVEL3") {
+		if(manager.winning && screen.scene == "LEVEL3") {
 			if(this.x < 337) {
 				this.x += this.speedX;
 			}  else {

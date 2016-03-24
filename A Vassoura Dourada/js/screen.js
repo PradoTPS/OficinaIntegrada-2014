@@ -1,16 +1,6 @@
 function Screen() {
 	this.scene = "SPLASHSCREEN";
 	
-	this.soundOn = true;
-	this.winning = false;
-	this.pause = false;
-	this.nextLevel = false;
-	this.levelOne = true;
-	this.levelTwo = false;
-	this.levelThree = false;
-	
-	this.deathToll = localStorage.getItem("mortes") === null ? 0 : localStorage.getItem("mortes");
-	
 	this.menuBackground = new Image();
 	this.menuBackground.src = "IMAGEM/Menu/Fundo_Estatico.png";
 	
@@ -145,8 +135,8 @@ function Screen() {
 	this.rainSpeed = 40;
 	
 	this.backgroundUpdate = function() {
-		if(!this.pause) {
-			if(!this.winning) {
+		if(!manager.pause) {
+			if(!manager.winning) {
 				if(runner.x < 100) {
 					runner.velocidade_cavalo = 10;
 					this.mountainSpeed = 0;
@@ -160,7 +150,7 @@ function Screen() {
 				}
 			}	
 			
-			if(!this.winning) {
+			if(!manager.winning) {
 				if(runner.x < 100) {
 					runner.velocidade_cavalo = 10;
 					this.levelOneSkySpeed = 0;
@@ -174,7 +164,7 @@ function Screen() {
 				}
 			}
 			
-			if(!this.winning) {
+			if(!manager.winning) {
 				if(runner.x < 100) {
 					runner.velocidade_cavalo = 10;
 					this.levelTwoSkySpeed = 0;
@@ -264,7 +254,7 @@ function Screen() {
 			}
 		}
 		
-		if (this.winning) {
+		if (manager.winning) {
 			this.mountainSpeed = 0;
 			this.moonSpeed = 0;
 			this.castelPilarsSpeed = 0;
@@ -278,15 +268,15 @@ function Screen() {
 			this.levelTwoTreesSpeed = 0;
 		}
 		
-		if(this.scene == "LEVEL1" && runner.x >= 100 && !screen.pause) {
+		if(this.scene == "LEVEL1" && runner.x >= 100 && !manager.pause) {
 			this.playerMapX += this.playerMapSpeed;
 		}
 		
-		if(this.scene == "LEVEL2" && runner.x >= 100 && !screen.pause) {
+		if(this.scene == "LEVEL2" && runner.x >= 100 && !manager.pause) {
 			this.playerMapX += this.playerMapSpeed;
 		}
 		
-		if(this.scene == "LEVEL3" && runner.x >= 100 && !screen.pause) {
+		if(this.scene == "LEVEL3" && runner.x >= 100 && !manager.pause) {
 			this.playerMapX += this.playerMapSpeed;
 		}
 		
@@ -294,21 +284,21 @@ function Screen() {
 			this.playerMapX = 704;
 		}
 		
-		if(this.scene == "LEVEL1" && this.winning){
+		if(this.scene == "LEVEL1" && manager.winning){
 			this.playerMapSpeed = 0;
 			this.playerMapX = 704;
 		} else {
 			this.playerMapSpeed = 0.88;
 		}
 		
-		if(this.scene == "LEVEL2" && this.winning){
+		if(this.scene == "LEVEL2" && manager.winning){
 			this.playerMapSpeed = 0;
 			this.playerMapX = 704;
 		} else {
 			this.playerMapSpeed = 0.5;
 		}
 		
-		if(this.scene == "LEVEL3" && this.winning){
+		if(this.scene == "LEVEL3" && manager.winning){
 			this.playerMapSpeed = 0;
 			this.playerMapX = 704;
 		} else {
@@ -353,8 +343,8 @@ function Screen() {
 	this.levelThreeFloorSpeed = 15;
 	
 	this.floorUpdate = function() {
-		if(!this.pause) {
-			if(!this.winning) {
+		if(!manager.pause) {
+			if(!manager.winning) {
 				if(runner.x < 100) {
 					this.levelOneFloorSpeed = 0;
 				} else {
@@ -362,7 +352,7 @@ function Screen() {
 				}
 			}
 			
-			if(!this.winning) {
+			if(!manager.winning) {
 				if(runner.x < 100) {
 					this.levelTwoFloorSpeed = 0;
 				} else {
@@ -370,7 +360,7 @@ function Screen() {
 				}
 			}
 			
-			if(!this.winning) {
+			if(!manager.winning) {
 				if(runner.x < 100) {
 					this.levelThreeFloorSpeed = 0;
 				} else {
@@ -412,10 +402,10 @@ function Screen() {
 			}
 		}
 		
-		if(this.winning) {
-			this.levelThreeFloorSpeed = 0;
+		if(manager.winning) {
 			this.levelOneFloorSpeed = 0;
 			this.levelTwoFloorSpeed = 0;
+			this.levelThreeFloorSpeed = 0;
 		}
 	}
 	
@@ -508,23 +498,23 @@ function Screen() {
 	this.fadeUpdate = function() {
 		if(Math.floor(this.currentFrame5) % this.fadeFrames == 24 && this.scene == "LEVEL1") {
 			this.scene = "LEVEL2";
-			this.winning = false;
+			manager.winning = false;
 			this.currentFrame5 = 0;
-			this.nextLevel = true;
+			manager.nextLevel = true;
 		}
 		
 		if(Math.floor(this.currentFrame5) % this.fadeFrames == 24 && this.scene == "LEVEL2") {
 			this.scene = "LEVEL3";
-			this.winning = false;
+			manager.winning = false;
 			this.currentFrame5 = 0;
-			this.nextLevel = true;
+			manager.nextLevel = true;
 		}
 		
 		if(Math.floor(this.currentFrame5) % this.fadeFrames == 24 && this.scene == "LEVEL3") {
 			this.scene = "MENU";
-			this.winning = false;
+			manager.winning = false;
 			this.currentFrame5 = 0;
-			this.nextLevel = true;
+			manager.nextLevel = true;
 		}
 	}
 	
@@ -549,16 +539,7 @@ function Screen() {
 	this.creditsMenuButton = new CommomButton(572, 20, "Icon_Voltar", "CREDITS", "MENU");
 	this.optionsMenuButton = new CommomButton(572, 20, "Icon_Voltar", "OPTIONS", "MENU");
 	this.lossMenuButton = new CommomButton(100, 436, "Icon_Menu", "LOSS", "MENU");
-	
-	if(this.levelOne) {
-		this.tempNext = "LEVEL1";
-	} else if(this.levelTwo) {
-		this.tempNext = "LEVEL2";
-	} else if(this.levelThree){
-		this.tempNext = "LEVEL3";
-	}
-	
-	this.lossGameButton = new CommomButton(492, 436, "Icon_Recomecar", "LOSS", this.tempNext);
+	this.lossGameButton = new CommomButton(492, 436, "Icon_Recomecar", "LOSS", "CURRENTLEVEL");
 	this.pauseMenuButton = new CommomButton(296, 250, "Icon_Menu", "PAUSE", "MENU");
 	
 	this.menu_audio = new Audio();
@@ -607,11 +588,11 @@ function Screen() {
 		this.fadeUpdate();
 		
 		if(this.scene == "LEVEL1") {
-			this.levelOne = true;
-		} else if(this.scene == "LEVEL2") {
-			this.levelTwo = true;
-		} else if(this.scene == "LEVEL3") {
-			this.levelThree = true;
+			manager.currentLevel = "levelOne";
+		} else if(this.scene == "LEVEL2"){
+			manager.currentLevel = "levelTwo";
+		} else if(this.scene == "LEVEL3"){
+			manager.currentLevel = "levelThree";
 		}
 	}
 	
@@ -668,7 +649,7 @@ function Screen() {
 			context.drawImage(this.playerMap, this.playerMapX, this.playerMapY, this.playerMapW, this.playerMapH);
 			context.fillStyle = "WHITE";
 			context.font = "30px Arial";
-			context.fillText("Mortes: " + this.deathToll, 40, 57);
+			context.fillText("Mortes: " + manager.deathToll, 40, 57);
 			
 			runner.draw();
 			
@@ -676,7 +657,7 @@ function Screen() {
 				n_arbusto[a].draw();
 			}
 			
-			if (this.winning) {
+			if (manager.winning) {
 				if(runner.x >= 840) {
 					context.drawImage(this.fadeAnimation[Math.floor(this.currentFrame5) % this.fadeFrames], 0, 0);
 				}
@@ -698,7 +679,7 @@ function Screen() {
 			context.drawImage(this.playerMap, this.playerMapX, this.playerMapY, this.playerMapW, this.playerMapH);
 			context.fillStyle = "WHITE";
 			context.font = "30px Arial";
-			context.fillText("Mortes: " + this.deathToll, 40, 57);
+			context.fillText("Mortes: " + manager.deathToll, 40, 57);
 			
 			runner.draw();
 			
@@ -710,7 +691,7 @@ function Screen() {
 				n_morcego2[m].draw();
 			}
 			
-			if (this.winning) {
+			if (manager.winning) {
 				if(runner.x >= 840) {
 					context.drawImage(this.fadeAnimation[Math.floor(this.currentFrame5) % this.fadeFrames], 0, 0);
 				}
@@ -726,7 +707,7 @@ function Screen() {
 			context.drawImage(this.levelThreeFloor, this.levelThreeFloorX2, this.levelThreeFloorY, this.levelThreeFloorW, this.levelThreeFloorH);
 			context.fillStyle = "WHITE";
 			context.font = "30px Arial";
-			context.fillText("Mortes: " + this.deathToll, 40, 57);
+			context.fillText("Mortes: " + manager.deathToll, 40, 57);
 			
 			runner.draw();
 			
@@ -738,7 +719,7 @@ function Screen() {
 				n_morcego[m].draw();
 			}
 			
-			if (this.winning) {
+			if (manager.winning) {
 				context.drawImage(this.broomAnimation[Math.floor(this.currentFrame4) % this.broomFrames], this.broomX, this.broomY);
 			}
 			
@@ -755,12 +736,12 @@ function Screen() {
 			this.lossMenuButton.draw();
 			this.lossGameButton.draw();
 		}
-		if (this.pause){
+		if (manager.pause){
 			context.drawImage(this.pauseContent, 0, 0, canvas.width, canvas.height);
 			this.pauseMenuButton.draw();
 			this.soundButton.draw();
 		}
-		if(this.soundOn) {
+		if(manager.soundOn) {
 			if (this.scene == "SPLASHSCREEN" || this.scene == "MENU" || this.scene == "OPTIONS" || this.scene == "CREDITS") {
 				this.menu_audio.play();
 			} else {
@@ -771,34 +752,34 @@ function Screen() {
 			} else {
 				this.loose_audio.pause();
 			}
-			if (this.scene == "LEVEL3" && !screen.winning) {
+			if (this.scene == "LEVEL3" && !manager.winning) {
 				this.jogo_audio.play();
 			} else {
 				this.jogo_audio.pause();
 			}
-			if(runner.caseJump && this.scene == "LEVEL3" && !screen.pause) {
+			if(runner.caseJump && this.scene == "LEVEL3" && !manager.pause) {
 				this.cavalo_audio.play();
 			} else {
 				this.cavalo_audio.pause();
 			}
-			if (this.scene == "LEVEL2" && !screen.winning) {
+			if (this.scene == "LEVEL2" && !manager.winning) {
 				this.fase2_audio.play();
 				this.fase2_musica.play();
 			} else {
 				this.fase2_audio.pause();
 				this.fase2_musica.pause();
 			}
-			if (this.scene == "LEVEL1" && !screen.winning) {
+			if (this.scene == "LEVEL1" && !manager.winning) {
 				this.fase1_musica.play();
 			} else {
 				this.fase1_musica.pause();
 			}
-			if (screen.scene == "LEVEL1" && screen.winning || screen.scene == "LEVEL2" && screen.winning) {
+			if (screen.scene == "LEVEL1" && manager.winning || screen.scene == "LEVEL2" && manager.winning) {
 				this.win_audio.play();
 			} else {
 				this.win_audio.pause();
 			}
-			if (screen.scene == "LEVEL3" && screen.winning) {
+			if (screen.scene == "LEVEL3" && manager.winning) {
 				this.win_audio2.play();
 			} else {
 				this.win_audio2.pause();

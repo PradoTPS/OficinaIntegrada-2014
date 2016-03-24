@@ -54,12 +54,12 @@ function Bat(numberOfBat) {
 				screen.scene = "LOSS";
 			}
 				
-			if(screen.soundOn) {
+			if(manager.soundOn) {
 				screen.morcego_audio.play();
 				screen.cavalo_morreu_audio.play();
 			}
 			
-			screen.deathToll++;
+			manager.deathToll++;
 			localStorage.setItem("mortes", screen.deathToll);
 		}
 		
