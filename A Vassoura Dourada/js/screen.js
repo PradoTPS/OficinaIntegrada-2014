@@ -541,65 +541,25 @@ function Screen() {
 			this.broomY = -600;
 		}	
 	}
-		
 	
-	this.botao_musica_x = 10;
-	this.botao_musica_y = 10;
-	this.botao_musica_w = 54;
-	this.botao_musica_h = 57;
-	this.botao_musica_on = new Image();
-	this.botao_musica_on.src = "IMAGEM/Botoes/som_on.png";
-	this.botao_musica_off = new Image();
-	this.botao_musica_off.src = "IMAGEM/Botoes/som_off.png";
+	this.soundButton = new SoundButton(10, 10, 54, 57, "som_on", "som_off", "MENU");
+	this.optionsButton = new CommomButton(55, 436, "Icon_Instru", "MENU", "OPTIONS");
+	this.creditsButton = new CommomButton(537, 436, "Icon_Cred", "MENU", "CREDITS");
+	this.playButton = new DifferentButton(288, 150, 224, 222, "Icon_Play", "MENU", "LEVEL1");
+	this.creditsMenuButton = new CommomButton(572, 20, "Icon_Voltar", "CREDITS", "MENU");
+	this.optionsMenuButton = new CommomButton(572, 20, "Icon_Voltar", "OPTIONS", "MENU");
+	this.lossMenuButton = new CommomButton(100, 436, "Icon_Menu", "LOSS", "MENU");
 	
-	this.botao_opcoes_x = 55;
-	this.botao_opcoes_y = 436;
-	this.botao_opcoes_w = 208;
-	this.botao_opcoes_h = 109;
-	this.botao_opcoes = new Image();
-	this.botao_opcoes.src = "IMAGEM/Botoes/Icon_Instru.png";
-
-	this.botao_creditos_x = 537;
-	this.botao_creditos_y = 436;
-	this.botao_creditos_w = 208;
-	this.botao_creditos_h = 109;
-	this.botao_creditos = new Image();
-	this.botao_creditos.src = "IMAGEM/Botoes/Icon_Cred.png";
-
-	this.botao_play_x = 288;
-	this.botao_play_y = 150;
-	this.botao_play_w = 224;
-	this.botao_play_h = 222;
-	this.botao_play = new Image();
-	this.botao_play.src = "IMAGEM/Botoes/Icon_Play.png";
+	if(this.levelOne) {
+		this.tempNext = "LEVEL1";
+	} else if(this.levelTwo) {
+		this.tempNext = "LEVEL2";
+	} else if(this.levelThree){
+		this.tempNext = "LEVEL3";
+	}
 	
-	this.botao_voltar_x = 572;
-	this.botao_voltar_y = 20;
-	this.botao_voltar_w = 208;
-	this.botao_voltar_h = 109;
-	this.botao_voltar = new Image();
-	this.botao_voltar.src = "IMAGEM/Botoes/Icon_Voltar.png";
-	
-	this.botao_loose_sair_x = 100;
-	this.botao_loose_sair_y = 436;
-	this.botao_loose_sair_w = 208;
-	this.botao_loose_sair_h = 109;
-	this.botao_loose_sair = new Image();
-	this.botao_loose_sair.src = "IMAGEM/Botoes/Icon_Menu.png";
-		
-	this.botao_loose_voltar_x = 492;
-	this.botao_loose_voltar_y = 436;
-	this.botao_loose_voltar_w = 208;
-	this.botao_loose_voltar_h = 109;
-	this.botao_loose_voltar = new Image();
-	this.botao_loose_voltar.src = "IMAGEM/Botoes/Icon_Recomecar.png";
-	
-	this.botao_pause_sair_x = 296;
-	this.botao_pause_sair_y = 250;
-	this.botao_pause_sair_w = 208;
-	this.botao_pause_sair_h = 109;
-	this.botao_pause_sair = new Image();
-	this.botao_pause_sair.src = "IMAGEM/Botoes/Icon_Menu.png";
+	this.lossGameButton = new CommomButton(492, 436, "Icon_Recomecar", "LOSS", this.tempNext);
+	this.pauseMenuButton = new CommomButton(296, 250, "Icon_Menu", "PAUSE", "MENU");
 	
 	this.menu_audio = new Audio();
 	this.menu_audio.src = "AUDIO/Menu/Menu.wav";
@@ -645,13 +605,12 @@ function Screen() {
 		this.floorUpdate();
 		this.broomUpdate();
 		this.fadeUpdate();
+		
 		if(this.scene == "LEVEL1") {
 			this.levelOne = true;
-		}
-		if(this.scene == "LEVEL2") {
+		} else if(this.scene == "LEVEL2") {
 			this.levelTwo = true;
-		}
-		if(this.scene == "LEVEL3") {
+		} else if(this.scene == "LEVEL3") {
 			this.levelThree = true;
 		}
 	}
@@ -672,14 +631,10 @@ function Screen() {
 			context.drawImage(this.clouds, this.cloudsX, this.cloudsY, this.cloudsW, this.cloudsH);
 			context.drawImage(this.clouds, this.cloudsX2, this.cloudsY, this.cloudsW, this.cloudsH);
 			context.drawImage(this.castleAnimation[Math.floor(this.currentFrame) % this.castleFrames], this.castleX, this.castleY);
-			context.drawImage(this.botao_opcoes, this.botao_opcoes_x, this.botao_opcoes_y, this.botao_opcoes_w, this.botao_opcoes_h);
-			context.drawImage(this.botao_creditos, this.botao_creditos_x, this.botao_creditos_y, this.botao_creditos_w, this.botao_creditos_h);
-			context.drawImage(this.botao_play, this.botao_play_x, this.botao_play_y, this.botao_play_w, this.botao_play_h);
-			if(this.soundOn) {
-				context.drawImage(this.botao_musica_on, this.botao_musica_x, this.botao_musica_y, this.botao_musica_w, this.botao_musica_h);
-			} else {
-				context.drawImage(this.botao_musica_off, this.botao_musica_x, this.botao_musica_y, this.botao_musica_w, this.botao_musica_h);
-			}
+			this.optionsButton.draw();
+			this.creditsButton.draw();
+			this.playButton.draw();
+			this.soundButton.draw();
 		}
 		if (this.scene == "OPTIONS"){
 			context.clearRect(0,0,canvas.width,canvas.height);
@@ -688,7 +643,7 @@ function Screen() {
 			context.drawImage(this.clouds, this.cloudsX2, this.cloudsY, this.cloudsW, this.cloudsH);
 			context.drawImage(this.castleAnimation[Math.floor(this.currentFrame) % this.castleFrames], this.castleX, this.castleY);
 			context.drawImage(this.optionsContent, 0, 0);
-			context.drawImage(this.botao_voltar, this.botao_voltar_x, this.botao_voltar_y, this.botao_voltar_w, this.botao_voltar_h);
+			this.optionsMenuButton.draw();
 		}
 		if (this.scene == "CREDITS"){
 			context.clearRect(0,0,canvas.width,canvas.height);
@@ -697,7 +652,7 @@ function Screen() {
 			context.drawImage(this.clouds, this.cloudsX2, this.cloudsY, this.cloudsW, this.cloudsH);
 			context.drawImage(this.creditsContent, 0, 0);
 			context.drawImage(this.castleAnimation[Math.floor(this.currentFrame) % this.castleFrames], this.castleX, this.castleY);
-			context.drawImage(this.botao_voltar, this.botao_voltar_x, this.botao_voltar_y, this.botao_voltar_w, this.botao_voltar_h);
+			this.creditsMenuButton.draw();
 		}
 		if (this.scene == "LEVEL1"){
 			context.clearRect(0, 0, canvas.width, canvas.height);
@@ -794,24 +749,16 @@ function Screen() {
 				context.drawImage(this.fadeAnimation[Math.floor(this.currentFrame5) % this.fadeFrames], 0, 0);
 			}
 		}
-		if (this.scene == "PAUSE"){
-			context.clearRect(0, 0, canvas.width, canvas.height);
-		}
 		if (this.scene == "LOSS"){
 			context.clearRect(0, 0, canvas.width, canvas.height);
 			context.drawImage(this.lossAnimation[Math.floor(this.currentFrame3) % this.lossFrames], 0, 0);
-			context.drawImage(this.botao_loose_sair, this.botao_loose_sair_x, this.botao_loose_sair_y, this.botao_loose_sair_w, this.botao_loose_sair_h);
-			context.drawImage(this.botao_loose_voltar, this.botao_loose_voltar_x, this.botao_loose_voltar_y, this.botao_loose_voltar_w, this.botao_loose_voltar_h);
+			this.lossMenuButton.draw();
+			this.lossGameButton.draw();
 		}
-		if (this.pause) {
+		if (this.pause){
 			context.drawImage(this.pauseContent, 0, 0, canvas.width, canvas.height);
-			context.drawImage(this.botao_pause_sair, this.botao_pause_sair_x, this.botao_pause_sair_y, this.botao_pause_sair_w, this.botao_pause_sair_h);
-		
-			if(this.soundOn) {
-				context.drawImage(this.botao_musica_on, this.botao_musica_x, this.botao_musica_y, this.botao_musica_w, this.botao_musica_h);
-			} else {
-				context.drawImage(this.botao_musica_off, this.botao_musica_x, this.botao_musica_y, this.botao_musica_w, this.botao_musica_h);
-			}
+			this.pauseMenuButton.draw();
+			this.soundButton.draw();
 		}
 		if(this.soundOn) {
 			if (this.scene == "SPLASHSCREEN" || this.scene == "MENU" || this.scene == "OPTIONS" || this.scene == "CREDITS") {

@@ -10,6 +10,7 @@
 		</center>
 		
 		<script src="js/runner.js"></script>
+		<script src="js/button.js"></script>
 		<script src="js/screen.js"></script>
 		<script src="js/bush.js"></script>
 		<script src="js/rock.js"></script>
@@ -129,7 +130,7 @@
 			}
 		}
 		
-		var _keyDown = function(e) {
+		var keyDown = function(e) {
 			switch (e.keyCode) {
 				case 32:
 					if( screen.scene == "LEVEL3" && !screen.pause || screen.scene == "LEVEL1" && !screen.pause || screen.scene == "LEVEL2" && !screen.pause) {
@@ -193,211 +194,31 @@
 					break;
 			}
 		}
-		var _mouseMove = function(e) {
-			if (screen.scene == "MENU") {
-				if ((e.x - canvas.offsetLeft > screen.botao_opcoes_x) && (e.x - canvas.offsetLeft < screen.botao_opcoes_x + screen.botao_opcoes_w) &&
-					(e.y > screen.botao_opcoes_y) && (e.y < screen.botao_opcoes_y + screen.botao_opcoes_h)) {
-					screen.botao_opcoes_x = 50;
-					screen.botao_opcoes_y = 431;
-					screen.botao_opcoes_w = 223;
-					screen.botao_opcoes_h = 124;
-					
-				} else {
-					screen.botao_opcoes_x = 55;
-					screen.botao_opcoes_y = 436;
-					screen.botao_opcoes_w = 208;
-					screen.botao_opcoes_h = 109;
-				}
-			}
-				
-				if (screen.scene == "OPTIONS") {
-					if ((e.x - canvas.offsetLeft > screen.botao_voltar_x) && (e.x - canvas.offsetLeft < screen.botao_voltar_x + screen.botao_voltar_w) &&
-						(e.y > screen.botao_voltar_y) && (e.y < screen.botao_voltar_y + screen.botao_voltar_h)) {
-						screen.botao_voltar_x = 567;
-						screen.botao_voltar_y = 15;
-						screen.botao_voltar_w = 223;
-						screen.botao_voltar_h = 124;
-					} else {
-						screen.botao_voltar_x = 572;
-						screen.botao_voltar_y = 20;
-						screen.botao_voltar_w = 208;
-						screen.botao_voltar_h = 109;
-					}
-				}
-				
-				if (screen.scene == "MENU") {
-					if ((e.x - canvas.offsetLeft > screen.botao_creditos_x) && (e.x - canvas.offsetLeft < screen.botao_creditos_x + screen.botao_creditos_w) &&
-						(e.y > screen.botao_creditos_y) && (e.y < screen.botao_creditos_y + screen.botao_creditos_h)) {
-						screen.botao_creditos_x = 532;
-						screen.botao_creditos_y = 431;
-						screen.botao_creditos_w = 223;
-						screen.botao_creditos_h = 124;
-					} else {
-						screen.botao_creditos_x = 537;
-						screen.botao_creditos_y = 436;
-						screen.botao_creditos_w = 208;
-						screen.botao_creditos_h = 109;
-					}
-				}
-				
-				if (screen.scene == "CREDITS") {
-					if ((e.x - canvas.offsetLeft > screen.botao_voltar_x) && (e.x - canvas.offsetLeft < screen.botao_voltar_x + screen.botao_voltar_w) &&
-						(e.y > screen.botao_voltar_y) && (e.y < screen.botao_voltar_y + screen.botao_voltar_h)) {
-						screen.botao_voltar_x = 567;
-						screen.botao_voltar_y = 15;
-						screen.botao_voltar_w = 223;
-						screen.botao_voltar_h = 124;
-					} else {
-						screen.botao_voltar_x = 572;
-						screen.botao_voltar_y = 20;
-						screen.botao_voltar_w = 208;
-						screen.botao_voltar_h = 109;
-					}
-				}
-				
-				if (screen.scene == "MENU" || screen.pause) {
-					if ((e.x - canvas.offsetLeft > screen.botao_musica_x) && (e.x - canvas.offsetLeft < screen.botao_musica_x + screen.botao_musica_w) &&
-						(e.y > screen.botao_musica_y) && (e.y < screen.botao_musica_y + screen.botao_musica_h)) {
-						screen.botao_musica_x = 5;
-						screen.botao_musica_y = 5;
-						screen.botao_musica_w = 69;
-						screen.botao_musica_h = 72;
-					} else {
-						screen.botao_musica_x = 10;
-						screen.botao_musica_y = 10;
-						screen.botao_musica_w = 54;
-						screen.botao_musica_h = 57;
-					}
-				}
-
-				if (screen.scene == "MENU") {
-					if ((e.x - canvas.offsetLeft > screen.botao_play_x) && (e.x - canvas.offsetLeft < screen.botao_play_x + screen.botao_play_w) &&
-						(e.y > screen.botao_play_y) && (e.y < screen.botao_play_y + screen.botao_play_h)) {
-						screen.botao_play_x = 283;
-						screen.botao_play_y = 145;
-						screen.botao_play_w = 239;
-						screen.botao_play_h = 237;
-					} else {
-						screen.botao_play_x = 288;
-						screen.botao_play_y = 150;
-						screen.botao_play_w = 224;
-						screen.botao_play_h = 222;
-					}
-				}
-				
-				if (screen.scene == "LOSS") {
-					if ((e.x - canvas.offsetLeft > screen.botao_loose_sair_x) && (e.x - canvas.offsetLeft < screen.botao_loose_sair_x + screen.botao_loose_sair_w) &&
-						(e.y > screen.botao_loose_sair_y) && (e.y < screen.botao_loose_sair_y + screen.botao_loose_sair_h)) {
-						screen.botao_loose_sair_x = 95;
-						screen.botao_loose_sair_y = 431;
-						screen.botao_loose_sair_w = 223;
-						screen.botao_loose_sair_h = 124;
-					} else {
-						screen.botao_loose_sair_x = 100;
-						screen.botao_loose_sair_y = 436;
-						screen.botao_loose_sair_w = 208;
-						screen.botao_loose_sair_h = 109;
-					}
-				}
-					
-				if (screen.scene == "LOSS") {
-					if ((e.x - canvas.offsetLeft > screen.botao_loose_voltar_x) && (e.x - canvas.offsetLeft < screen.botao_loose_voltar_x + screen.botao_loose_voltar_w) &&
-						(e.y > screen.botao_loose_voltar_y) && (e.y < screen.botao_loose_voltar_y + screen.botao_loose_voltar_h)) {
-						screen.botao_loose_voltar_x = 487;
-						screen.botao_loose_voltar_y = 431;
-						screen.botao_loose_voltar_w = 223;
-						screen.botao_loose_voltar_h = 124;
-					} else {
-						screen.botao_loose_voltar_x = 492;
-						screen.botao_loose_voltar_y = 436;
-						screen.botao_loose_voltar_w = 208;
-						screen.botao_loose_voltar_h = 109;
-					}
-				}
-				
-				if(screen.pause) {
-					if ((e.x - canvas.offsetLeft > screen.botao_pause_sair_x) && (e.x - canvas.offsetLeft < screen.botao_pause_sair_x + screen.botao_pause_sair_w) &&
-						(e.y > screen.botao_pause_sair_y) && (e.y < screen.botao_pause_sair_y + screen.botao_pause_sair_h)) {
-						screen.botao_pause_sair_x = 291;
-						screen.botao_pause_sair_y = 245;
-						screen.botao_pause_sair_w = 223;
-						screen.botao_pause_sair_h = 124;
-					} else {
-						screen.botao_pause_sair_x = 296;
-						screen.botao_pause_sair_y = 250;
-						screen.botao_pause_sair_w = 208;
-						screen.botao_pause_sair_h = 109;
-				}
-			}
+		var mouseMove = function(e) {
+			screen.optionsButton.mouseOver(e);
+			screen.soundButton.mouseOver(e);
+			screen.creditsButton.mouseOver(e);
+			screen.playButton.mouseOver(e);
+			screen.optionsMenuButton.mouseOver(e);
+			screen.creditsMenuButton.mouseOver(e);
+			screen.lossMenuButton.mouseOver(e);
+			screen.lossGameButton.mouseOver(e);
+			screen.pauseMenuButton.mouseOver(e);
+			
 		}
-		var _mouseClick = function(e) {
-			if (screen.scene == "MENU") {
-				if ((e.x - canvas.offsetLeft > screen.botao_opcoes_x) && (e.x - canvas.offsetLeft < screen.botao_opcoes_x + screen.botao_opcoes_w) &&
-					(e.y > screen.botao_opcoes_y) && (e.y < screen.botao_opcoes_y + screen.botao_opcoes_h)) {
-					screen.scene = "OPTIONS";
-					
-					if(screen.soundOn) {
-						screen.botao_audio.play();
-					}
-				}
-			}
+		var mouseClick = function(e) {
+			screen.optionsButton.click(e);
+			screen.soundButton.click(e);
+			screen.creditsButton.click(e);
+			screen.playButton.click(e);
+			screen.optionsMenuButton.click(e);
+			screen.creditsMenuButton.click(e);
+			screen.lossMenuButton.click(e);
+			screen.lossGameButton.click(e);
+			screen.pauseMenuButton.click(e);
 			
-			if (screen.scene == "OPTIONS") {
-				if ((e.x - canvas.offsetLeft > screen.botao_voltar_x) && (e.x - canvas.offsetLeft < screen.botao_voltar_x + screen.botao_voltar_w) &&
-					(e.y > screen.botao_voltar_y) && (e.y < screen.botao_voltar_y + screen.botao_voltar_h)) {
-					screen.scene = "MENU";
-					
-					if(screen.soundOn) {
-						screen.botao_audio.play();
-					}
-				}
-			}
 			
-			if (screen.scene == "MENU") {
-				if ((e.x - canvas.offsetLeft > screen.botao_creditos_x) && (e.x - canvas.offsetLeft < screen.botao_creditos_x + screen.botao_creditos_w) &&
-					(e.y > screen.botao_creditos_y) && (e.y < screen.botao_creditos_y + screen.botao_creditos_h)) {
-					screen.scene = "CREDITS";
-					
-					if(screen.soundOn) {
-						screen.botao_audio.play();
-					}
-				}
-			}
-			
-			if (screen.scene == "CREDITS") {
-				if ((e.x - canvas.offsetLeft > screen.botao_voltar_x) && (e.x - canvas.offsetLeft < screen.botao_voltar_x + screen.botao_voltar_w) &&
-					(e.y > screen.botao_voltar_y) && (e.y < screen.botao_voltar_y + screen.botao_voltar_h)) {
-					screen.scene = "MENU";
-					
-					if(screen.soundOn) {
-						screen.botao_audio.play();
-					}
-				}
-			}
-			
-			if (screen.scene == "MENU" || screen.pause) {
-				if ((e.x - canvas.offsetLeft > screen.botao_musica_x) && (e.x - canvas.offsetLeft < screen.botao_musica_x + screen.botao_musica_w) &&
-					(e.y > screen.botao_musica_y) && (e.y < screen.botao_musica_y + screen.botao_musica_h)) {
-					screen.soundOn = !screen.soundOn;
-					
-					if(screen.soundOn) {
-						screen.botao_audio.play();
-					}
-				}
-			}
-
-			if (screen.scene == "MENU") {
-				if ((e.x - canvas.offsetLeft > screen.botao_play_x) && (e.x - canvas.offsetLeft < screen.botao_play_x + screen.botao_play_w) &&
-					(e.y > screen.botao_play_y) && (e.y < screen.botao_play_y + screen.botao_play_h)) {
-					screen.scene = "LEVEL1";
-					
-					if(screen.soundOn) {
-						screen.botao_audio.play();
-					}
-				}
-			}
-			
-			if (screen.scene == "LOSS") {
+			/*if (screen.scene == "LOSS") {
 				if ((e.x - canvas.offsetLeft > screen.botao_loose_sair_x) && (e.x - canvas.offsetLeft < screen.botao_loose_sair_x + screen.botao_loose_sair_w) &&
 					(e.y > screen.botao_loose_sair_y) && (e.y < screen.botao_loose_sair_y + screen.botao_loose_sair_h)) {
 					screen.scene = "MENU";
@@ -672,12 +493,12 @@
 				if(screen.soundOn) {
 					screen.botao_audio.play();
 				}
-			}
+			}*/
 		}
 		
-		document.addEventListener("keydown", _keyDown, true);
-		document.addEventListener("click", _mouseClick, false);
-		document.addEventListener("mousemove", _mouseMove, true);
+		document.addEventListener("keydown", keyDown, true);
+		document.addEventListener("click", mouseClick, false);
+		document.addEventListener("mousemove", mouseMove, true);
 		
 		var verificando_win = function() {
 			if(screen.scene == "LEVEL1") {
