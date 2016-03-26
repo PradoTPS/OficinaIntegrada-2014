@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head> 
-		<title> A VASSOURA DOURADA </title>
+		<title>A VASSOURA DOURADA</title>
 	</head>
 	<body>
 		<center>
@@ -10,8 +10,19 @@
 		</center>
 		
 		<script src="js/manager.js"></script>
+		<script src="js/musicManager.js"></script>
+		<script src="js/enemiesManager.js"></script>
+		<script src="js/menu.js"></script>
+		<script src="js/levelOne.js"></script>
+		<script src="js/levelTwo.js"></script>
+		<script src="js/levelThree.js"></script>
 		<script src="js/screen.js"></script>
+		<script src="js/text.js"></script>
+		<script src="js/animation.js"></script>
+		<script src="js/fade.js"></script>
+		<script src="js/bar.js"></script>
 		<script src="js/button.js"></script>
+		<script src="js/broom.js"></script>
 		<script src="js/runner.js"></script>
 		<script src="js/bush.js"></script>
 		<script src="js/rock.js"></script>
@@ -19,269 +30,66 @@
 		<script src="js/bat.js"></script>
 		
 		<script>
-		var canvas = document.getElementById("VassouraDourada");
-		var context = canvas.getContext("2d");
-		
-		var screen = new Screen();
-		var manager = new Manager();
-		var runner =  new Runner();
-
-		var n_arbusto = new Array();
-		var MEX = 10;
-		for (var a = 0; a <= MEX; a++) {
-			n_arbusto.push(new Bush());
-
-			if (a > 0) {
-				n_arbusto[a].x = n_arbusto[a - 1].x + n_arbusto[a].w +
-										runner.w + 300 + Math.floor(Math.random() * 500);
-			} else {
-				n_arbusto[a].x = canvas.width + 30;
-			}
-		}
-		
-		function arbusto_update() {
-			if (screen.scene == "LEVEL1") {
-				for (var a in n_arbusto) {
-					n_arbusto[a].update();
-				}
-			}
-		}
-		
-		var n_pedra = new Array();
-		var MIX = 15;
-		for (var p = 0; p <= MIX; p++) {
-			n_pedra.push(new Rock());
-
-			if (p > 0) {
-				n_pedra[p].x = n_pedra[p - 1].x + n_pedra[p].w +
-										runner.w + 500 + Math.floor(Math.random() * 500);
-			} else {
-				n_pedra[p].x = canvas.width + 30;
-			}
-		}
-		
-		function pedra_update() {
-			if (screen.scene == "LEVEL2") {
-				for (var p in n_pedra) {
-					n_pedra[p].update();
-				}
-			}
-		}
-		
-		var n_morcego2 = new Array();
-		var MUX = 8;
-		for (var m = 0; m <= MUX; m++) {
-			n_morcego2.push(new Bat(2));
+			var canvas = document.getElementById("VassouraDourada");
+			var context = canvas.getContext("2d");
 			
-			if (m > 0) {
-				n_morcego2[m].x = n_morcego2[m - 1].x + n_morcego2[m].w +
-										runner.w + 1700 + Math.floor(Math.random(250) * 500);
-			} else {
-				n_morcego2[m].x = canvas.width + 500 + Math.floor(Math.random() * 500);;
-			}
-		}
-		
-		function morcego2_update() {
-			if (screen.scene == "LEVEL2") {
-				for (var m in n_morcego2) {
-					n_morcego2[m].update();
-				}
-			}
-		}
-		
-		var n_barril = new Array();
-		var MAX = 25;
-		for (var b = 0; b <= MAX; b++) {
-			n_barril.push(new Barrel());
-
-			if (b > 0) {
-				n_barril[b].x = n_barril[b - 1].x + n_barril[b].w +
-										runner.w + 300 + Math.floor(Math.random() * 500);
-			} else {
-				n_barril[b].x = canvas.width + 30;
-			}
-		}
-		
-		function barril_update() {
-			if (screen.scene == "LEVEL3") {
-				for (var b in n_barril) {
-					n_barril[b].update();
-				}
-			}
-		}
-		
-		var n_morcego = new Array();
-		var MOX = 16;
-		for (var m = 0; m <= MOX; m++) {
-			n_morcego.push(new Bat(1));
+			var screen = new Screen();
+			var manager = new Manager();
+			var runner =  new Runner();
+			var enemiesManager = new EnemiesManager();
 			
-			if (m > 0) {
-				n_morcego[m].x = n_morcego[m - 1].x + n_morcego[m].w +
-										runner.w + 1000 + Math.floor(Math.random(250) * 500);
-			} else {
-				n_morcego[m].x = canvas.width + 500 + Math.floor(Math.random() * 500);;
-			}
-		}
-		
-		function morcego_update() {
-			if (screen.scene == "LEVEL3") {
-				for (var m in n_morcego) {
-					n_morcego[m].update();
-				}
-			}
-		}
-		
-		var keyDown = function(e) {
-			switch (e.keyCode) {
-				case 32:
-					runner.jump();
-					manager.clickSplashScreen();
-					break;
-					
-				case 80:
-					manager.clickPause();
-					break;
-					
-				case 90:
-					if ((screen.scene == "LEVEL1" || screen.scene == "LEVEL2" || screen.scene == "LEVEL3") && !manager.pause) {
-						for (var m = 0; m < MOX; m++) {
-							if( n_morcego[m].x <= 320 && n_morcego[m].x >= 115 &&
-								runner.colliderY <= 350 && !runner.caseJump) {
-								n_morcego[m].speed_x = -20;
-								n_morcego[m].speed_y = 15;
-							
-								if(manager.soundOn && !manager.pause) {
-									screen.morcego_morto_audio.play();
-									screen.espadada_audio.play();
-								}
-								
-							} else if(manager.soundOn && !manager.pause && !runner.jump.case) {
-								screen.espadada_erro_audio.play();
-							}
-						}
+			var keyDown = function(e) {
+				switch (e.keyCode) {
+					case 32:
+						runner.jump();
+						manager.clickSplashScreen();
+						break;
 						
-						for (var m = 0; m < MUX; m++) {
-							if( n_morcego2[m].x <= 320 && n_morcego2[m].x >= 115 &&
-								runner.colliderY <= 350 && !runner.caseJump) {
-								n_morcego2[m].speed_x = -20;
-								n_morcego2[m].speed_y = 15;
-								
-								if(manager.soundOn && !manager.pause) {
-									screen.morcego_morto_audio.play();
-									screen.espadada_audio.play();
-								}
-								
-							} else if(manager.soundOn && !manager.pause && !runner.jump.case) {
-								screen.espadada_erro_audio.play();
-							}
-						}
-						runner.hitting = true;
-					}
-					break;
-			}
-		}
-		
-		var mouseMove = function(e) {
-			screen.optionsButton.mouseOver(e);
-			screen.soundButton.mouseOver(e);
-			screen.creditsButton.mouseOver(e);
-			screen.playButton.mouseOver(e);
-			screen.optionsMenuButton.mouseOver(e);
-			screen.creditsMenuButton.mouseOver(e);
-			screen.lossMenuButton.mouseOver(e);
-			screen.lossGameButton.mouseOver(e);
-			screen.pauseMenuButton.mouseOver(e);
-		}
-		
-		var mouseClick = function(e) {
-			screen.optionsButton.click(e);
-			screen.soundButton.click(e);
-			screen.creditsButton.click(e);
-			screen.playButton.click(e);
-			screen.optionsMenuButton.click(e);
-			screen.creditsMenuButton.click(e);
-			screen.lossMenuButton.click(e);
-			screen.lossGameButton.click(e);
-			screen.pauseMenuButton.click(e);
-		}
-		
-		document.addEventListener("keydown", keyDown, true);
-		document.addEventListener("click", mouseClick, false);
-		document.addEventListener("mousemove", mouseMove, true);
-		
-		var verificando_win = function() {
-			if(screen.scene == "LEVEL1") {
-				for (var a = 0; a <= MEX; a++) {
-					if(n_arbusto[MEX].x + n_arbusto[MEX].w <= 0) {
-						manager.winning = true;
-					}
+					case 80:
+						manager.clickPause();
+						break;
+						
+					case 90:
+						runner.hit();
+						break;
 				}
 			}
-			if(screen.scene == "LEVEL2") {
-				for (var p = 0; p <= MIX; p++) {
-					for (var m = 0; m <= MUX; m++) {
-						if(n_pedra[MIX].x + n_pedra[MIX].w <= 0) {
-							if (n_morcego2[MUX].x + n_morcego2[MUX].w <= 0 ||
-								n_morcego2[MUX].y + n_morcego2[MUX].h <= 0) {
-								manager.winning = true;
-							}
-						}
-					}
-				}
-			}
-			if(screen.scene == "LEVEL3") {
-				for (var b = 0; b <= MAX; b++) {
-					for (var m = 0; m <= MOX; m++) {
-						if(n_barril[MAX].x + n_barril[MAX].w <= 0) {
-							if (n_morcego[MOX].x + n_morcego[MOX].w <= 0 ||
-								n_morcego[MOX].y + n_morcego[MOX].h <= 0) {
-								manager.winning = true;
-							}
-						}
-					}
-				}
-			}
-		}
-		
-		var update = function() {
-			if(screen.scene == "LEVEL1" && !manager.pause) {
-				runner.update();
-				arbusto_update();
-			}
-			if(screen.scene == "LEVEL2" && !manager.pause) {
-				runner.update();
-				pedra_update();
-				morcego2_update();
-			}
-			if(screen.scene == "LEVEL3" && !manager.pause) {
-				runner.update();
-				barril_update();
-				morcego_update();
-			}
-			screen.update();
-			verificando_win();
 			
-			if(screen.scene == "LOSS"){
-				manager.restart();
+			var mouseMove = function(e) {
+				screen.optionsButton.mouseOver(e);
+				screen.soundButton.mouseOver(e);
+				screen.creditsButton.mouseOver(e);
+				screen.playButton.mouseOver(e);
+				screen.optionsMenuButton.mouseOver(e);
+				screen.creditsMenuButton.mouseOver(e);
+				screen.lossMenuButton.mouseOver(e);
+				screen.lossGameButton.mouseOver(e);
+				screen.pauseMenuButton.mouseOver(e);
+			}
+			
+			var mouseClick = function(e) {
+				screen.optionsButton.click(e);
+				screen.soundButton.click(e);
+				screen.creditsButton.click(e);
+				screen.playButton.click(e);
+				screen.optionsMenuButton.click(e);
+				screen.creditsMenuButton.click(e);
+				screen.lossMenuButton.click(e);
+				screen.lossGameButton.click(e);
+				screen.pauseMenuButton.click(e);
+			}
+			
+			document.addEventListener("keydown", keyDown, true);
+			document.addEventListener("click", mouseClick, false);
+			document.addEventListener("mousemove", mouseMove, true);
+			
+			var loop = function() {
+				manager.update();
+				screen.draw();
+				setTimeout(loop, 30);
 			}
 
-			if(manager.nextLevel) {
-				manager.restart();
-				manager.passLevel();
-			}
-		}
-		
-		var draw = function() {
-			screen.draw();
-		}
-		
-		var loop = function() {
-			update();
-			draw();
-			setTimeout(loop, 30);
-		}
-
-		loop();
-	</script>
+			loop();
+		</script>
 	</body>
 </html>

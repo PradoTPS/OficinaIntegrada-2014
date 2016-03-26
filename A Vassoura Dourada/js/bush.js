@@ -1,6 +1,6 @@
 function Bush() {
 	this.bush = new Image();
-	this.bush.src = "IMAGEM/Jogo/Inimigos/arbusto.png";
+	this.bush.src = "images/gameplay/enemies/bush.png";
 
 	this.x = 1000 + Math.floor(Math.random() * 1000);
 	this.y = 430;
@@ -23,12 +23,12 @@ function Bush() {
 			}
 			
 			if(manager.soundOn) {
-				screen.bateu_audio.play();
-				screen.cavalo_morreu_audio.play();
+				runner.diedContactAudio.play();
+				runner.diedHorseAudio.play();
 			}
 			
 			manager.deathToll++;
-			localStorage.setItem("mortes", screen.deathToll);
+			localStorage.setItem("mortes", manager.deathToll);
 		}
 	}
 	

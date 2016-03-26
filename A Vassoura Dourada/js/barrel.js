@@ -1,6 +1,6 @@
 function Barrel() {
 	this.barrel = new Image();
-	this.barrel.src = "IMAGEM/Jogo/Inimigos/barril.png";
+	this.barrel.src = "images/gameplay/enemies/barrel.png";
 
 	this.x = 1000 + Math.floor(Math.random() * 1000);
 	this.y = 434;
@@ -23,12 +23,12 @@ function Barrel() {
 			}
 			
 			if(manager.soundOn) {
-				screen.bateu_audio.play();
-				screen.cavalo_morreu_audio.play();
+				runner.diedContactAudio.play();
+				runner.diedHorseAudio.play();
 			}
 			
 			manager.deathToll++;
-			localStorage.setItem("mortes", screen.deathToll);
+			localStorage.setItem("mortes", manager.deathToll);
 		}
 	}
 	

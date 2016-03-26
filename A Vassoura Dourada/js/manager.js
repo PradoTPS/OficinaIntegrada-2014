@@ -7,11 +7,16 @@ function Manager(){
 	
 	this.deathToll = localStorage.getItem("deaths") === null ? 0 : localStorage.getItem("deaths");
 	
+	this.pauseClickAudio = new Audio();
+	this.pauseClickAudio.src = "audios/gameplay/pause/click.mp3";
+	
+	this.musicManager = new MusicManager();
+	
 	this.clickPause = function(){
 		if ((screen.scene == "LEVEL1" || screen.scene == "LEVEL2" || screen.scene == "LEVEL3") && !this.winning) {
 			this.pause = !this.pause;
 			if(this.pause && this.soundOn) {
-				screen.pause_click_audio.play();
+				this.pauseClickAudio.play();
 			}
 		}
 	}
@@ -34,61 +39,61 @@ function Manager(){
 		runner.caseJump2 = true;
 		
 		screen.moonX = 400;
-		screen.broomY = -600;
-		screen.playerMapX = 200;
+		screen.broom.y = -600;
+		screen.bar.playerMapX = 200;
 		
-		for (var a = 0; a <= MEX; a++) {
-			n_arbusto.splice(a);
-			n_arbusto.push(new Bush());
-
-			if (a > 0) {
-				n_arbusto[a].x = n_arbusto[a - 1].x + n_arbusto[a].w + runner.w + 300 + Math.floor(Math.random() * 500);
-			} else {
-				n_arbusto[a].x = canvas.width + 30;
-			}
-		}
-		
-		for (var p = 0; p <= MIX; p++) {
-			n_pedra.splice(p);
-			n_pedra.push(new Rock());
-
-			if (p > 0) {
-				n_pedra[p].x = n_pedra[p - 1].x + n_pedra[p].w + runner.w + 500 + Math.floor(Math.random() * 500);
-			} else {
-				n_pedra[p].x = canvas.width + 30;
-			}
-		}
-		
-		for (var m = 0; m <= MUX; m++) {
-			n_morcego2.splice(m);
-			n_morcego2.push(new Bat(2));
-
-			if (m > 0) {
-				n_morcego2[m].x = n_morcego2[m - 1].x + n_morcego2[m].w + runner.w + 1700 + Math.floor(Math.random(250) * 500);
-			} else {
-				n_morcego2[m].x = canvas.width + 500 + Math.floor(Math.random() * 500);;
-			}
-		}
-		
-		for (var b = 0; b <= MAX; b++) {
-			n_barril.splice(b);
-			n_barril.push(new Barrel());
+		for (var b = 0; b <= enemiesManager.bushMax; b++) {
+			enemiesManager.bushWave.splice(b);
+			enemiesManager.bushWave.push(new Bush());
 
 			if (b > 0) {
-				n_barril[b].x = n_barril[b - 1].x + n_barril[b].w + runner.w + 300 + Math.floor(Math.random() * 500);
+				enemiesManager.bushWave[b].x = enemiesManager.bushWave[b - 1].x + enemiesManager.bushWave[b].w + runner.w + 300 + Math.floor(Math.random() * 500);
 			} else {
-				n_barril[b].x = canvas.width + 30;
+				enemiesManager.bushWave[b].x = canvas.width + 30;
+			}
+		}
+		
+		for (var r = 0; r <= enemiesManager.rockMax; r++) {
+			enemiesManager.rockWave.splice(r);
+			enemiesManager.rockWave.push(new Rock());
+
+			if (r > 0) {
+				enemiesManager.rockWave[r].x = enemiesManager.rockWave[r - 1].x + enemiesManager.rockWave[r].w + runner.w + 500 + Math.floor(Math.random() * 500);
+			} else {
+				enemiesManager.rockWave[r].x = canvas.width + 30;
+			}
+		}
+		
+		for (var b = 0; b <= enemiesManager.blackBatMax; b++) {
+			enemiesManager.blackBatWave.splice(b);
+			enemiesManager.blackBatWave.push(new Bat(2));
+
+			if (b > 0) {
+				enemiesManager.blackBatWave[b].x = enemiesManager.blackBatWave[b - 1].x + enemiesManager.blackBatWave[b].w + runner.w + 1700 + Math.floor(Math.random(250) * 500);
+			} else {
+				enemiesManager.blackBatWave[b].x = canvas.width + 500 + Math.floor(Math.random() * 500);;
+			}
+		}
+		
+		for (var r = 0; r <= enemiesManager.barrelMax; r++) {
+			enemiesManager.barrelWave.splice(r);
+			enemiesManager.barrelWave.push(new Barrel());
+
+			if (r > 0) {
+				enemiesManager.barrelWave[r].x = enemiesManager.barrelWave[r - 1].x + enemiesManager.barrelWave[r].w + runner.w + 300 + Math.floor(Math.random() * 500);
+			} else {
+				enemiesManager.barrelWave[r].x = canvas.width + 30;
 			}
 		}
 				
-		for (var m = 0; m <= MOX; m++) {
-			n_morcego.splice(m);
-			n_morcego.push(new Bat(1));
+		for (var b = 0; b <= enemiesManager.purpleBatMax; b++) {
+			enemiesManager.purpleBatWave.splice(b);
+			enemiesManager.purpleBatWave.push(new Bat(1));
 
-			if (m > 0) {
-				n_morcego[m].x = n_morcego[m - 1].x + n_morcego[m].w + runner.w + 1000 + Math.floor(Math.random(250) * 500);
+			if (b > 0) {
+				enemiesManager.purpleBatWave[b].x = enemiesManager.purpleBatWave[b - 1].x + enemiesManager.purpleBatWave[b].w + runner.w + 1000 + Math.floor(Math.random(250) * 500);
 			} else {
-				n_morcego[m].x = canvas.width + 500 + Math.floor(Math.random() * 500);;
+				enemiesManager.purpleBatWave[b].x = canvas.width + 500 + Math.floor(Math.random() * 500);;
 			}
 		}
 	}
@@ -103,6 +108,80 @@ function Manager(){
 			this.currentLevel = "levelThree";
 		} else if(this.currentLevel == "levelThree"){
 			this.currentLevel = "levelOne";
+		}
+	}
+	
+	this.winChecker= function() {
+		if(screen.scene == "LEVEL1") {
+			for (var b = 0; b <= enemiesManager.bushMax; b++) {
+				if(enemiesManager.bushWave[enemiesManager.bushMax].x + enemiesManager.bushWave[enemiesManager.bushMax].w <= 0) {
+					this.winning = true;
+				}
+			}
+		}
+		
+		if(screen.scene == "LEVEL2") {
+			for (var r = 0; r <= enemiesManager.rockMax; r++) {
+				for (var b = 0; b <= enemiesManager.blackBatMax; b++) {
+					if(enemiesManager.rockWave[enemiesManager.rockMax].x + enemiesManager.rockWave[enemiesManager.rockMax].w <= 0) {
+						if (enemiesManager.blackBatWave[enemiesManager.blackBatMax].x + enemiesManager.blackBatWave[enemiesManager.blackBatMax].w <= 0 || enemiesManager.blackBatWave[enemiesManager.blackBatMax].y + enemiesManager.blackBatWave[enemiesManager.blackBatMax].h <= 0) {
+							this.winning = true;
+						}
+					}
+				}
+			}
+		}
+		
+		if(screen.scene == "LEVEL3") {
+			for (var r = 0; r <= enemiesManager.barrelMax; r++) {
+				for (var b = 0; b <= enemiesManager.purpleBatMax; b++) {
+					if(enemiesManager.barrelWave[enemiesManager.barrelMax].x + enemiesManager.barrelWave[enemiesManager.barrelMax].w <= 0) {
+						if (enemiesManager.purpleBatWave[enemiesManager.purpleBatMax].x + enemiesManager.purpleBatWave[enemiesManager.purpleBatMax].w <= 0 || enemiesManager.purpleBatWave[enemiesManager.purpleBatMax].y + enemiesManager.purpleBatWave[enemiesManager.purpleBatMax].h <= 0) {
+							this.winning = true;
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	this.levelChecker = function(){
+		if(screen.scene == "LEVEL1") {
+			this.currentLevel = "levelOne";
+		} else if(screen.scene == "LEVEL2"){
+			this.currentLevel = "levelTwo";
+		} else if(screen.scene == "LEVEL3"){
+			this.currentLevel = "levelThree";
+		}
+	}
+	
+	this.update = function(){
+		if(screen.scene == "LEVEL1" && !this.pause) {
+			runner.update();
+			enemiesManager.bushWaveUpdate();
+		}
+		if(screen.scene == "LEVEL2" && !this.pause) {
+			runner.update();
+			enemiesManager.rockWaveUpdate();
+			enemiesManager.blackBatWaveUpdate();
+		}
+		if(screen.scene == "LEVEL3" && !this.pause) {
+			runner.update();
+			enemiesManager.barrelWaveUpdate();
+			enemiesManager.purpleBatWaveUpdate();
+		}
+		screen.update();
+		this.winChecker();
+		this.levelChecker();
+		this.musicManager.update();
+		
+		if(screen.scene == "LOSS"){
+			this.restart();
+		}
+
+		if(this.nextLevel) {
+			this.restart();
+			this.passLevel();
 		}
 	}
 }

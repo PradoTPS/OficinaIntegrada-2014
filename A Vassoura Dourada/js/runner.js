@@ -22,66 +22,32 @@ function Runner() {
 	this.hitting = false;
 	
 	this.up = new Image();
-	this.up.src = "IMAGEM/Jogo/Pedro/Pulo/pulo1.png";
-	
+	this.up.src = "images/gameplay/player/jump/up.png";
 	this.down = new Image();
-	this.down.src = "IMAGEM/Jogo/Pedro/Pulo/pulo2.png";
-	
+	this.down.src = "images/gameplay/player/jump/down.png";
 	this.won = new Image();
-	this.won.src = "IMAGEM/JOGO/Pedro/Ganhou/pedro_ganhou.png";
+	this.won.src = "images/gameplay/player/win.png";
 	
-	this.start = (new Date()).getTime();
-	this.current;
-	this.currentFrame = 0;
-	this.currentFrame2 = 0;
+	this.running = new Animation(4, "gameplay/player/running/running", 7, false);
+	this.hittingUp = new Animation(3, "gameplay/player/hitting/up/hittingUp", 5, false);
+	this.hittingDown = new Animation(3, "gameplay/player/hitting/down/hittingDown", 5, false);
 	
-	this.animation = new Array();
-	this.numFrames = 4;
-	this.horseSpeed = 7;
-	this.hittingUp = new Array();
-	this.hittingDown = new Array();
-	this.numFramesHitting = 3;
-	
-	for (var i = 0; i < this.numFrames; i++) {
-		this.animation[i] = new Image();
-		this.animation[i].src = "IMAGEM/Jogo/Pedro/Andando/pedro" + (i + 1) + ".png";
-	}
-
-	for (var i = 0; i < this.numFramesHitting; i++) {
-		this.hittingUp[i] = new Image();
-		this.hittingUp[i].src = "IMAGEM/Jogo/Pedro/Espadada_Subindo/pedro1_esp" + (i + 1) + ".png";
-	}
-
-	for (var i = 0; i < this.numFramesHitting; i++) {
-		this.hittingDown[i] = new Image();
-		this.hittingDown[i].src = "IMAGEM/Jogo/Pedro/Espadada_Descendo/pedro2_esp" + (i + 1) + ".png";
-	}
-
-	this.deltaTime = function() {
-		this.current = (new Date()).getTime();
-		this.elapsed = this.current - this.start;
-		this.start = this.current;
-		var delta = this.elapsed / 1000;
-		return delta;
-	}
-	
-	this.bateu_audio = new Audio();
-	this.bateu_audio.src = "AUDIO/Jogo/Morreu/bateu.mp3";
-		
-	this.cavalo_morreu_audio = new Audio();
-	this.cavalo_morreu_audio.src = "AUDIO/Jogo/Morreu/Cavalo_morreu.wav";
-		
-	this.cavalo_audio = new Audio();
-	this.cavalo_audio.src = "AUDIO/Jogo/Cavalo/Cavalo_Som.mp3";
-		
-	this.espadada_erro_audio = new Audio();
-	this.espadada_erro_audio.src = "AUDIO/Jogo/espadada/espada_erro.mp3";
-		
-	this.espadada_audio = new Audio();
-	this.espadada_audio.src = "AUDIO/Jogo/espadada/espadada.mp3";
-		
-	this.cavalo_pulo_audio = new Audio();
-	this.cavalo_pulo_audio.src = "AUDIO/Jogo/Cavalo/pulo_cavalo.mp3";
+	this.walkingHorseAudio = new Audio();
+	this.walkingHorseAudio.src = "audios/gameplay/horse/running.mp3";
+	this.jumpHorseAudio = new Audio();
+	this.jumpHorseAudio.src = "audios/gameplay/horse/jump.mp3";
+	this.diedContactAudio = new Audio();
+	this.diedContactAudio.src = "audios/gameplay/dying/contact.mp3";
+	this.diedBatAudio = new Audio();
+	this.diedBatAudio.src = "audios/gameplay/dying/bat.mp3";
+	this.diedHorseAudio = new Audio();
+	this.diedHorseAudio.src = "audios/gameplay/dying/dyingHorse.mp3";
+	this.cannotHitAudio = new Audio();
+	this.cannotHitAudio.src = "audios/gameplay/hitting/missHit.mp3";
+	this.hittedAudio = new Audio();
+	this.hittedAudio.src = "audios/gameplay/hitting/hit.mp3";
+	this.hittedBatAudio = new Audio();
+	this.hittedBatAudio.src = "audios/gameplay/hitting/killingBat.mp3";
 		
 	this.jump = function() {
 		if((screen.scene == "LEVEL1" || screen.scene == "LEVEL2" || screen.scene == "LEVEL3") && !manager.pause && !manager.winning) {
@@ -91,16 +57,48 @@ function Runner() {
 			}
 			
 			if(manager.soundOn && !manager.pause) {
-				screen.cavalo_pulo_audio.play();
+				this.jumpHorseAudio.play();
 			}
 		}
 	}
 	
+	this.hit = function(){
+		if ((screen.scene == "LEVEL1" || screen.scene == "LEVEL2" || screen.scene == "LEVEL3") && !manager.pause) {
+			for (var b = 0; b < enemiesManager.purpleBatMax; b++) {
+				if( enemiesManager.purpleBatWave[b].x <= 320 && enemiesManager.purpleBatWave[b].x >= 115 && this.colliderY <= 350 && !this.caseJump) {
+					enemiesManager.purpleBatWave[b].die();
+				
+					if(manager.soundOn && !manager.pause) {
+						this.hittedBatAudio.play();
+						this.hittedAudio.play();
+					}
+					
+				} else if(manager.soundOn && !manager.pause && !this.jump.case) {
+					this.cannotHitAudio.play();
+				}
+			}
+			
+			for (var b = 0; b < enemiesManager.blackBatMax; b++) {
+				if( enemiesManager.blackBatWave[b].x <= 320 && enemiesManager.blackBatWave[b].x >= 115 && this.colliderY <= 350 && !this.caseJump) {
+					enemiesManager.blackBatWave[b].die();
+					
+					if(manager.soundOn && !manager.pause) {
+						this.hittedBatAudio.play();
+						this.hittedAudio.play();
+					}
+					
+				} else if(manager.soundOn && !manager.pause && !this.jump.case) {
+					this.cannotHitAudio.play();
+				}
+			}
+			this.hitting = true;
+		}
+	}
+	
 	this.animationUpdate = function() {
-		var delta = this.deltaTime();
-		this.currentFrame += delta * this.horseSpeed;
-		
-		this.currentFrame2 += delta * 5;
+		this.running.update();
+		this.hittingUp.update();
+		this.hittingDown.update();
 	}
 	
 	this.update = function() {
@@ -187,7 +185,7 @@ function Runner() {
 			if (this.caseJump && this.x < 337) {
 				/*context.fillStyle = "WHITE";
 				context.fillRect(this.colliderX, this.colliderY, this.colliderW, this.colliderH);*/
-				context.drawImage(this.animation[Math.floor(this.currentFrame) % this.numFrames], this.x, this.y, this.w, this.h);
+				context.drawImage(this.running.animation[Math.floor(this.running.currentFrame) % this.running.numFrames], this.x, this.y, this.w, this.h);
 			}
 		}
 		
@@ -195,7 +193,7 @@ function Runner() {
 			if (this.caseJump) {
 				/*context.fillStyle = "WHITE";
 				context.fillRect(this.colliderX, this.colliderY, this.colliderW, this.colliderH);*/
-				context.drawImage(this.animation[Math.floor(this.currentFrame) % this.numFrames], this.x, this.y, this.w, this.h);
+				context.drawImage(this.running.animation[Math.floor(this.running.currentFrame) % this.running.numFrames], this.x, this.y, this.w, this.h);
 			}
 		}
 
@@ -212,15 +210,15 @@ function Runner() {
 		}
 		
 		if (this.hitting && this.caseJump2) {
-			context.drawImage(this.hittingUp[Math.floor(this.currentFrame2) % this.numFramesHitting], this.x + 10, this.y, this.hittingW, this.hittingH);
+			context.drawImage(this.hittingUp.animation[Math.floor(this.hittingUp.currentFrame) % this.hittingUp.numFrames], this.x + 10, this.y, this.hittingW, this.hittingH);
 		}
 			
 		if (this.hitting && !this.caseJump2) {
-			context.drawImage(this.hittingDown[Math.floor(this.currentFrame2) % this.numFramesHitting], this.x + 10, this.y, this.hittingW, this.hittingH);
+			context.drawImage(this.hittingDown.animation[Math.floor(this.hittingDown.currentFrame) % this.hittingDown.numFrames], this.x + 10, this.y, this.hittingW, this.hittingH);
 		}
 		
 		if (this.x >= 337 && screen.scene == "LEVEL3") {
-			context.drawImage(this.up, this.x, this.y, this.w, this.h);
+			context.drawImage(this.won, this.x, this.y, this.w, this.h);
 		}
 	}
 }	

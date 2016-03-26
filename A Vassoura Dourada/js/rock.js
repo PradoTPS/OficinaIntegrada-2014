@@ -1,6 +1,6 @@
 function Rock() {
 	this.rock = new Image();
-	this.rock.src = "IMAGEM/Jogo/Inimigos/pedra.png";
+	this.rock.src = "images/gameplay/enemies/rock.png";
 
 	this.x = 1000 + Math.floor(Math.random() * 1000);
 	this.y = 432;
@@ -23,12 +23,12 @@ function Rock() {
 			}
 			
 			if(manager.soundOn) {
-				screen.bateu_audio.play();
-				screen.cavalo_morreu_audio.play();
+				runner.diedContactAudio.play();
+				runner.diedHorseAudio.play();
 			}
 			
 			manager.deathToll++;
-			localStorage.setItem("mortes", screen.deathToll);
+			localStorage.setItem("mortes", manager.deathToll);
 		}
 	}
 	
