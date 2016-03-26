@@ -1,36 +1,44 @@
 <!DOCTYPE html>
 <html>
 	<head> 
-		<title>A VASSOURA DOURADA</title>
+		<title>A Vassoura Dourada</title>
+		<link rel="icon" href="resources/images/icon/icon.png">
+		<link rel="stylesheet" href="resources/css/style.css">
 	</head>
 	<body>
-		<center>
-			<canvas canvas id="VassouraDourada" width="800" height="600" style="border:5px solid #000000;">
-			</canvas>
-		</center>
+		<header id="header">
+			<img src="resources/images/logo.png" id="logo" width="479" height="166">
 		
-		<script src="js/manager.js"></script>
-		<script src="js/musicManager.js"></script>
-		<script src="js/enemiesManager.js"></script>
-		<script src="js/menu.js"></script>
-		<script src="js/levelOne.js"></script>
-		<script src="js/levelTwo.js"></script>
-		<script src="js/levelThree.js"></script>
-		<script src="js/screen.js"></script>
-		<script src="js/text.js"></script>
-		<script src="js/animation.js"></script>
-		<script src="js/fade.js"></script>
-		<script src="js/bar.js"></script>
-		<script src="js/button.js"></script>
-		<script src="js/broom.js"></script>
-		<script src="js/runner.js"></script>
-		<script src="js/bush.js"></script>
-		<script src="js/rock.js"></script>
-		<script src="js/barrel.js"></script>
-		<script src="js/bat.js"></script>
+			<div id="inf">
+				<p> Jogo desenvolvido para Oficina Integrada NAVE-2014 </p>
+				<p><a href="http://www.github.com/thiagosemjoelho/oficinaintegrada-2014"> C&oacutedigo Fonte </a></p>
+			</div>
+		</header>
+		
+		<canvas canvas id="canvas" width="800" height="600"></canvas>
+		
+		<script src="resources/js/manager.js"></script>
+		<script src="resources/js/musicManager.js"></script>
+		<script src="resources/js/enemiesManager.js"></script>
+		<script src="resources/js/menu.js"></script>
+		<script src="resources/js/levelOne.js"></script>
+		<script src="resources/js/levelTwo.js"></script>
+		<script src="resources/js/levelThree.js"></script>
+		<script src="resources/js/screen.js"></script>
+		<script src="resources/js/text.js"></script>
+		<script src="resources/js/animation.js"></script>
+		<script src="resources/js/fade.js"></script>
+		<script src="resources/js/bar.js"></script>
+		<script src="resources/js/button.js"></script>
+		<script src="resources/js/broom.js"></script>
+		<script src="resources/js/runner.js"></script>
+		<script src="resources/js/bush.js"></script>
+		<script src="resources/js/rock.js"></script>
+		<script src="resources/js/barrel.js"></script>
+		<script src="resources/js/bat.js"></script>
 		
 		<script>
-			var canvas = document.getElementById("VassouraDourada");
+			var canvas = document.getElementById("canvas");
 			var context = canvas.getContext("2d");
 			
 			var screen = new Screen();

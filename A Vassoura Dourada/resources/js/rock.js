@@ -1,6 +1,6 @@
 function Rock() {
 	this.rock = new Image();
-	this.rock.src = "images/gameplay/enemies/rock.png";
+	this.rock.src = "resources/images/gameplay/enemies/rock.png";
 
 	this.x = 1000 + Math.floor(Math.random() * 1000);
 	this.y = 432;

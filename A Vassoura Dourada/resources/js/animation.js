@@ -1,4 +1,4 @@
-function Animation(numFrames, imageSrc, speed, fade){
+function Animation(numFrames, imagesrc, speed, fade){
 	this.start = (new Date()).getTime();
 	this.current;
 	this.currentFrame = 0;
@@ -15,7 +15,7 @@ function Animation(numFrames, imageSrc, speed, fade){
 	
 	for (var i = 0; i < numFrames; i++) {
 		this.animation[i] = new Image();
-		this.animation[i].src = "images/" + imageSrc + (i + 1) + ".png";
+		this.animation[i].src = "resources/images/" + imagesrc + (i + 1) + ".png";
 	}
 	
 	this.update = function() {

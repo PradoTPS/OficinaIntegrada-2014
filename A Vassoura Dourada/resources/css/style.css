@@ -1,0 +1,41 @@
+body {
+	background-color: #34a8eb;
+	font-family: Helvetica, Arial, sans serif;
+}
+
+canvas {
+	position: absolute;
+	top: 200px;
+	right: 0;
+	left: 0;
+	padding-bottom: 20px;
+	margin: auto;
+	display: block;
+}
+
+h1, h2, h3, h4, h5, h6, p{
+	color: #ffffff;
+}
+
+a {
+	color: #eeefff;
+}
+
+a:hover {
+	color: #ffffff;
+}
+
+
+#inf {
+	position: absolute;
+	top: 20px;
+	right: 20px;
+	font-weight: bold;
+	text-align: right;
+}
+
+#logo {
+	position: absolute;
+	top: 20px;
+	left: 20px;
+}

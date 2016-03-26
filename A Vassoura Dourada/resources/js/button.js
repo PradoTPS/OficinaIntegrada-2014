@@ -1,12 +1,12 @@
-function CommomButton(x, y, imageSrc, here, next){
+function CommomButton(x, y, imagesrc, here, next){
 	this.x = x;
 	this.y = y;
 	this.w = 208;
 	this.h = 109;
 	this.image = new Image();
-	this.image.src = "images/button/" + imageSrc + ".png";
-	this.botao_audio = new Audio();
-	this.botao_audio.src = "audios/button/click.mp3";
+	this.image.src = "resources/images/button/" + imagesrc + ".png";
+	this.buttonAudio = new Audio();
+	this.buttonAudio.src = "resources/audios/button/click.mp3";
 	
 	this.draw = function(){
 		context.drawImage(this.image, this.x, this.y, this.w, this.h);
@@ -65,7 +65,7 @@ function CommomButton(x, y, imageSrc, here, next){
 					manager.pause = false;
 					
 					if(manager.soundOn) {
-						this.botao_audio.play();
+						this.buttonAudio.play();
 					}
 				}
 			}
@@ -86,7 +86,7 @@ function CommomButton(x, y, imageSrc, here, next){
 					}
 					
 					if(manager.soundOn) {
-						this.botao_audio.play();
+						this.buttonAudio.play();
 					}
 				}
 			}
@@ -94,15 +94,15 @@ function CommomButton(x, y, imageSrc, here, next){
 	}
 }
 
-function DifferentButton(x, y, w, h, imageSrc, here, next){
+function DifferentButton(x, y, w, h, imagesrc, here, next){
 	this.x = x;
 	this.y = y;
 	this.w = w;
 	this.h = h;
 	this.image = new Image();
-	this.image.src = "images/button/" + imageSrc + ".png";
-	this.botao_audio = new Audio();
-	this.botao_audio.src = "audios/button/click.mp3";
+	this.image.src = "resources/images/button/" + imagesrc + ".png";
+	this.buttonAudio = new Audio();
+	this.buttonAudio.src = "resources/audios/button/click.mp3";
 	
 	this.draw = function(){
 		context.drawImage(this.image, this.x, this.y, this.w, this.h);
@@ -137,24 +137,24 @@ function DifferentButton(x, y, w, h, imageSrc, here, next){
 				screen.scene = next;
 				
 				if(manager.soundOn) {
-					this.botao_audio.play();
+					this.buttonAudio.play();
 				}
 			}
 		}
 	}
 }
 
-function SoundButton(x, y, w, h, imageSrc, imageSrcOff, here){
+function SoundButton(x, y, w, h, imagesrc, imagesrcOff, here){
 	this.x = x;
 	this.y = y;
 	this.w = w;
 	this.h = y;
 	this.imageOn = new Image();
-	this.imageOn.src = "images/button/" + imageSrc + ".png";
+	this.imageOn.src = "resources/images/button/" + imagesrc + ".png";
 	this.imageOff = new Image();
-	this.imageOff.src = "images/button/" + imageSrcOff + ".png";
-	this.botao_audio = new Audio();
-	this.botao_audio.src = "audios/button/click.mp3";
+	this.imageOff.src = "resources/images/button/" + imagesrcOff + ".png";
+	this.buttonAudio = new Audio();
+	this.buttonAudio.src = "resources/audios/button/click.mp3";
 	
 	this.draw = function(){
 		if(manager.soundOn){
@@ -193,7 +193,7 @@ function SoundButton(x, y, w, h, imageSrc, imageSrcOff, here){
 				manager.soundOn = !manager.soundOn;
 				
 				if(manager.soundOn) {
-					this.botao_audio.play();
+					this.buttonAudio.play();
 				}
 			}
 		}

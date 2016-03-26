@@ -22,32 +22,32 @@ function Runner() {
 	this.hitting = false;
 	
 	this.up = new Image();
-	this.up.src = "images/gameplay/player/jump/up.png";
+	this.up.src = "resources/images/gameplay/player/jump/up.png";
 	this.down = new Image();
-	this.down.src = "images/gameplay/player/jump/down.png";
+	this.down.src = "resources/images/gameplay/player/jump/down.png";
 	this.won = new Image();
-	this.won.src = "images/gameplay/player/win.png";
+	this.won.src = "resources/images/gameplay/player/win.png";
 	
 	this.running = new Animation(4, "gameplay/player/running/running", 7, false);
 	this.hittingUp = new Animation(3, "gameplay/player/hitting/up/hittingUp", 5, false);
 	this.hittingDown = new Animation(3, "gameplay/player/hitting/down/hittingDown", 5, false);
 	
 	this.walkingHorseAudio = new Audio();
-	this.walkingHorseAudio.src = "audios/gameplay/horse/running.mp3";
+	this.walkingHorseAudio.src = "resources/audios/gameplay/horse/running.mp3";
 	this.jumpHorseAudio = new Audio();
-	this.jumpHorseAudio.src = "audios/gameplay/horse/jump.mp3";
+	this.jumpHorseAudio.src = "resources/audios/gameplay/horse/jump.mp3";
 	this.diedContactAudio = new Audio();
-	this.diedContactAudio.src = "audios/gameplay/dying/contact.mp3";
+	this.diedContactAudio.src = "resources/audios/gameplay/dying/contact.mp3";
 	this.diedBatAudio = new Audio();
-	this.diedBatAudio.src = "audios/gameplay/dying/bat.mp3";
+	this.diedBatAudio.src = "resources/audios/gameplay/dying/bat.mp3";
 	this.diedHorseAudio = new Audio();
-	this.diedHorseAudio.src = "audios/gameplay/dying/dyingHorse.mp3";
+	this.diedHorseAudio.src = "resources/audios/gameplay/dying/dyingHorse.mp3";
 	this.cannotHitAudio = new Audio();
-	this.cannotHitAudio.src = "audios/gameplay/hitting/missHit.mp3";
+	this.cannotHitAudio.src = "resources/audios/gameplay/hitting/missHit.mp3";
 	this.hittedAudio = new Audio();
-	this.hittedAudio.src = "audios/gameplay/hitting/hit.mp3";
+	this.hittedAudio.src = "resources/audios/gameplay/hitting/hit.mp3";
 	this.hittedBatAudio = new Audio();
-	this.hittedBatAudio.src = "audios/gameplay/hitting/killingBat.mp3";
+	this.hittedBatAudio.src = "resources/audios/gameplay/hitting/killingBat.mp3";
 		
 	this.jump = function() {
 		if((screen.scene == "LEVEL1" || screen.scene == "LEVEL2" || screen.scene == "LEVEL3") && !manager.pause && !manager.winning) {

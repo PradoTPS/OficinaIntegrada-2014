@@ -1,18 +1,18 @@
 function Menu(){
 	this.background = new Image();
-	this.background.src = "images/menu/static/background.png";
+	this.background.src = "resources/images/menu/static/background.png";
 	
 	this.logo = new Image();
-	this.logo.src = "images/menu/static/logo.png";
+	this.logo.src = "resources/images/menu/static/logo.png";
 	
 	this.optionsContent = new Image();
-	this.optionsContent.src = "images/menu/static/instructions.png";
+	this.optionsContent.src = "resources/images/menu/static/instructions.png";
 	
 	this.creditsContent = new Image();
-	this.creditsContent.src = "images/menu/static/credits.png";
+	this.creditsContent.src = "resources/images/menu/static/credits.png";
 	
 	this.clouds = new Image();
-	this.clouds.src = "images/menu/dinamic/clouds.png";
+	this.clouds.src = "resources/images/menu/dinamic/clouds.png";
 	this.cloudsX = -800;
 	this.cloudsX2 = 0;
 	this.cloudsY = 80;

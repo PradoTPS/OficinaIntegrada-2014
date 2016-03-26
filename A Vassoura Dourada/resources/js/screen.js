@@ -13,7 +13,7 @@ function Screen() {
 	this.levelThree = new LevelThree();
 	
 	this.pauseContent = new Image();
-	this.pauseContent.src = "images/gameplay/pause/pauseScreen.png";
+	this.pauseContent.src = "resources/images/gameplay/pause/pauseScreen.png";
 	this.loss = new Animation(9, "gameplay/loss/lossScreen", 10, false);	
 	
 	this.soundButton = new SoundButton(10, 10, 54, 57, "audioOn", "audioOff", "MENU");

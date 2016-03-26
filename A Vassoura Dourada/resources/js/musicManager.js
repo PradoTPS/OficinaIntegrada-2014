@@ -1,18 +1,18 @@
 function MusicManager(){
 	this.menuMusic = new Audio();
-	this.menuMusic.src = "audios/menu/menu.mp3";
+	this.menuMusic.src = "resources/audios/menu/menu.mp3";
 	this.lossMusic = new Audio();
-	this.lossMusic.src = "audios/gameplay/dying/loss.mp3";
+	this.lossMusic.src = "resources/audios/gameplay/dying/loss.mp3";
 	this.winShortMusic = new Audio();
-	this.winShortMusic.src = "audios/gameplay/win/shortWin.mp3";
+	this.winShortMusic.src = "resources/audios/gameplay/win/shortWin.mp3";
 	this.winLongMusic = new Audio();
-	this.winLongMusic.src = "audios/gameplay/win/longWin.mp3";
+	this.winLongMusic.src = "resources/audios/gameplay/win/longWin.mp3";
 	this.levelOneMusic = new Audio();
-	this.levelOneMusic.src = "audios/gameplay/music/levelOne.mp3";
+	this.levelOneMusic.src = "resources/audios/gameplay/music/levelOne.mp3";
 	this.levelTwoMusic = new Audio();
-	this.levelTwoMusic.src = "audios/gameplay/music/levelTwo.mp3";
+	this.levelTwoMusic.src = "resources/audios/gameplay/music/levelTwo.mp3";
 	this.levelThreeMusic = new Audio();
-	this.levelThreeMusic.src = "audios/gameplay/music/levelThree.mp3";
+	this.levelThreeMusic.src = "resources/audios/gameplay/music/levelThree.mp3";
 	
 	this.update = function(){
 		if(manager.soundOn) {

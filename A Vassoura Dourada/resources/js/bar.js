@@ -1,13 +1,13 @@
 function Bar(){
 	this.map = new Image();
-	this.map.src = "images/gameplay/map/bar.png";
+	this.map.src = "resources/images/gameplay/map/bar.png";
 	this.mapX = 200;
 	this.mapY = 0;
 	this.mapW = 582;
 	this.mapH = 102;
 	
 	this.playerMap = new Image();
-	this.playerMap.src = "images/gameplay/map/playerMap.png";
+	this.playerMap.src = "resources/images/gameplay/map/playerMap.png";
 	this.playerMapX = 200;
 	this.playerMapY = 0;
 	this.playerMapW = 582;

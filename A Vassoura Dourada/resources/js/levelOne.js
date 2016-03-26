@@ -1,6 +1,6 @@
 function LevelOne(){
 	this.sky = new Image();
-	this.sky.src = "images/gameplay/background/levelOne/sky.png";
+	this.sky.src = "resources/images/gameplay/background/levelOne/sky.png";
 	this.skyX = 0;
 	this.skyX2 = 1600;
 	this.skyY = 0;
@@ -9,7 +9,7 @@ function LevelOne(){
 	this.skySpeed = 1.5;
 	
 	this.background = new Image();
-	this.background.src = "images/gameplay/background/levelOne/background.png";
+	this.background.src = "resources/images/gameplay/background/levelOne/background.png";
 	this.backgroundX = 0;
 	this.backgroundX2 = 1600;
 	this.backgroundY = 0;
@@ -18,7 +18,7 @@ function LevelOne(){
 	this.backgroundSpeed = 3;
 	
 	this.trees = new Image();
-	this.trees.src = "images/gameplay/background/levelOne/trees.png";
+	this.trees.src = "resources/images/gameplay/background/levelOne/trees.png";
 	this.treesX = 0;
 	this.treesX2 = 1600;
 	this.treesY = 0;
@@ -27,7 +27,7 @@ function LevelOne(){
 	this.treesSpeed = 5;
 	
 	this.floor = new Image();
-	this.floor.src = "images/gameplay/background/levelOne/floor.png";
+	this.floor.src = "resources/images/gameplay/background/levelOne/floor.png";
 	this.floorX = 0;
 	this.floorX2 = 1600;
 	this.floorY = 0;

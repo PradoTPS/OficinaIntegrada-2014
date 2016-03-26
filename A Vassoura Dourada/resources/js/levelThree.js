@@ -1,6 +1,6 @@
 function LevelThree(){
 	this.mountain = new Image();
-	this.mountain.src = "images/gameplay/background/levelThree/mountain.png";
+	this.mountain.src = "resources/images/gameplay/background/levelThree/mountain.png";
 	this.mountainX = 0;
 	this.mountainX2 = 1600;
 	this.mountainY = 0;
@@ -9,7 +9,7 @@ function LevelThree(){
 	this.mountainSpeed = 4;
 	
 	this.castlePilars = new Image();
-	this.castlePilars.src = "images/gameplay/background/levelThree/castlePilars.png";
+	this.castlePilars.src = "resources/images/gameplay/background/levelThree/castlePilars.png";
 	this.castlePilarsX = 0;
 	this.castlePilarsY = 0;
 	this.castlePilarsW = 1600;
@@ -17,7 +17,7 @@ function LevelThree(){
 	this.castlePilarsSpeed = 7;
 	
 	this.moon = new Image();
-	this.moon.src = "images/gameplay/background/levelThree/moon.png";
+	this.moon.src = "resources/images/gameplay/background/levelThree/moon.png";
 	this.moonX = 400;
 	this.moonY = 100;
 	this.moonW = 672;
@@ -25,7 +25,7 @@ function LevelThree(){
 	this.moonSpeed = 0.5;
 	
 	this.floor = new Image();
-	this.floor.src = "images/gameplay/background/levelThree/floor.png";
+	this.floor.src = "resources/images/gameplay/background/levelThree/floor.png";
 	this.floorX = 0;
 	this.floorX2 = 1600;
 	this.floorY = 500;

@@ -8,7 +8,7 @@ function Manager(){
 	this.deathToll = localStorage.getItem("deaths") === null ? 0 : localStorage.getItem("deaths");
 	
 	this.pauseClickAudio = new Audio();
-	this.pauseClickAudio.src = "audios/gameplay/pause/click.mp3";
+	this.pauseClickAudio.src = "resources/audios/gameplay/pause/click.mp3";
 	
 	this.musicManager = new MusicManager();
 	

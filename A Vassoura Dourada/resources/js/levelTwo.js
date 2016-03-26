@@ -1,6 +1,6 @@
 function LevelTwo(){
 	this.sky = new Image();
-	this.sky.src = "images/gameplay/background/levelTwo/sky.png";
+	this.sky.src = "resources/images/gameplay/background/levelTwo/sky.png";
 	this.skyX = 0;
 	this.skyX2 = 1600;
 	this.skyY = 0;
@@ -9,7 +9,7 @@ function LevelTwo(){
 	this.skySpeed = 1.5;
 	
 	this.background = new Image();
-	this.background.src = "images/gameplay/background/levelTwo/background.png";
+	this.background.src = "resources/images/gameplay/background/levelTwo/background.png";
 	this.backgroundX = 0;
 	this.backgroundX2 = 1600;
 	this.backgroundY = 0;
@@ -18,7 +18,7 @@ function LevelTwo(){
 	this.backgroundSpeed = 3;
 	
 	this.trees = new Image();
-	this.trees.src = "images/gameplay/background/levelTwo/trees.png";
+	this.trees.src = "resources/images/gameplay/background/levelTwo/trees.png";
 	this.treesX = 0;
 	this.treesX2 = 1600;
 	this.treesY = 0;
@@ -27,7 +27,7 @@ function LevelTwo(){
 	this.treesSpeed = 5;
 	
 	this.rain = new Image();
-	this.rain.src = "images/gameplay/background/levelTwo/rain.png";
+	this.rain.src = "resources/images/gameplay/background/levelTwo/rain.png";
 	this.rainX = 0;
 	this.rainX2 = 3200;
 	this.rainY = 0;
@@ -36,7 +36,7 @@ function LevelTwo(){
 	this.rainSpeed = 40;
 	
 	this.floor = new Image();
-	this.floor.src = "images/gameplay/background/levelTwo/floor.png";
+	this.floor.src = "resources/images/gameplay/background/levelTwo/floor.png";
 	this.floorX = 0;
 	this.floorX2 = 1600;
 	this.floorY = 0;

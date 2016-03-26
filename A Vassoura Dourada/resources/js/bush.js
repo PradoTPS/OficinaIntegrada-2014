@@ -1,11 +1,11 @@
-function Barrel() {
-	this.barrel = new Image();
-	this.barrel.src = "images/gameplay/enemies/barrel.png";
+function Bush() {
+	this.bush = new Image();
+	this.bush.src = "resources/images/gameplay/enemies/bush.png";
 
 	this.x = 1000 + Math.floor(Math.random() * 1000);
-	this.y = 434;
-	this.w = 48;
-	this.h = 66;
+	this.y = 430;
+	this.w = 92;
+	this.h = 86;
 	this.speed = 15;
 	
 	this.update = function() {
@@ -33,6 +33,6 @@ function Barrel() {
 	}
 	
 	this.draw = function() {
-		context.drawImage(this.barrel, this.x, this.y, this.w, this.h);
+		context.drawImage(this.bush, this.x, this.y, this.w, this.h);
 	}
 }
