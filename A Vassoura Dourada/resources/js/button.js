@@ -20,8 +20,8 @@ function CommomButton(x, y, imagesrc, here, next){
 				this.innitialW = 208;
 				this.innitialH = 109;
 				
-				if ((e.x - canvas.offsetLeft > this.x) && (e.x - canvas.offsetLeft < this.x + this.w) &&
-					(e.y > this.y) && (e.y < this.y + this.h)) {
+				if ((e.offsetX > this.x) && (e.offsetX < this.x + this.w) &&
+					(e.offsetY > this.y) && (e.offsetY < this.y + this.h)) {
 					this.x = this.innitialX - 5;
 					this.y = this.innitialY - 5;
 					this.w = this.innitialW + 10;
@@ -40,8 +40,8 @@ function CommomButton(x, y, imagesrc, here, next){
 				this.innitialW = 208;
 				this.innitialH = 109;
 				
-				if ((e.x - canvas.offsetLeft > this.x) && (e.x - canvas.offsetLeft < this.x + this.w) &&
-					(e.y > this.y) && (e.y < this.y + this.h)) {
+				if ((e.offsetX > this.x) && (e.offsetX < this.x + this.w) &&
+					(e.offsetY > this.y) && (e.offsetY < this.y + this.h)) {
 					this.x = this.innitialX - 5;
 					this.y = this.innitialY - 5;
 					this.w = this.innitialW + 10;
@@ -59,8 +59,8 @@ function CommomButton(x, y, imagesrc, here, next){
 	this.click = function(e){
 		if(here == "PAUSE"){
 			if (manager.pause) {
-				if ((e.x - canvas.offsetLeft > this.x) && (e.x - canvas.offsetLeft < this.x + this.w) &&
-					(e.y > this.y) && (e.y < this.y + this.h)) {
+				if ((e.offsetX > this.x) && (e.offsetX < this.x + this.w) &&
+					(e.offsetY > this.y) && (e.offsetY < this.y + this.h)) {
 					screen.scene = next;
 					manager.pause = false;
 					
@@ -71,8 +71,8 @@ function CommomButton(x, y, imagesrc, here, next){
 			}
 		} else {
 			if (screen.scene == here) {
-				if ((e.x - canvas.offsetLeft > this.x) && (e.x - canvas.offsetLeft < this.x + this.w) &&
-					(e.y > this.y) && (e.y < this.y + this.h)) {
+				if ((e.offsetX > this.x) && (e.offsetX < this.x + this.w) &&
+					(e.offsetY > this.y) && (e.offsetY < this.y + this.h)) {
 					if(next == "CURRENTLEVEL"){
 						if(manager.currentLevel == "levelOne"){
 							screen.scene = "LEVEL1";
@@ -115,8 +115,8 @@ function DifferentButton(x, y, w, h, imagesrc, here, next){
 			this.innitialW = w;
 			this.innitialH = h;
 			
-			if ((e.x - canvas.offsetLeft > this.x) && (e.x - canvas.offsetLeft < this.x + this.w) &&
-				(e.y > this.y) && (e.y < this.y + this.h)) {
+			if ((e.offsetX > this.x) && (e.offsetX < this.x + this.w) &&
+				(e.offsetY > this.y) && (e.offsetY < this.y + this.h)) {
 				this.x = this.innitialX - 5;
 				this.y = this.innitialY - 5;
 				this.w = this.innitialW + 10;
@@ -132,8 +132,8 @@ function DifferentButton(x, y, w, h, imagesrc, here, next){
 	
 	this.click = function(e){
 		if (screen.scene == here) {
-			if ((e.x - canvas.offsetLeft > this.x) && (e.x - canvas.offsetLeft < this.x + this.w) &&
-				(e.y > this.y) && (e.y < this.y + this.h)) {
+			if ((e.offsetX > this.x) && (e.offsetX < this.x + this.w) &&
+				(e.offsetY > this.y) && (e.offsetY < this.y + this.h)) {
 				screen.scene = next;
 				
 				if(manager.soundOn) {
@@ -171,8 +171,8 @@ function SoundButton(x, y, w, h, imagesrc, imagesrcOff, here){
 			this.innitialW = w;
 			this.innitialH = h;
 			
-			if ((e.x - canvas.offsetLeft > this.x) && (e.x - canvas.offsetLeft < this.x + this.w) &&
-				(e.y > this.y) && (e.y < this.y + this.h)) {
+			if ((e.offsetX > this.x) && (e.offsetX < this.x + this.w) &&
+				(e.offsetY > this.y) && (e.offsetY < this.y + this.h)) {
 				this.x = this.innitialX - 5;
 				this.y = this.innitialY - 5;
 				this.w = this.innitialW + 10;
@@ -188,8 +188,8 @@ function SoundButton(x, y, w, h, imagesrc, imagesrcOff, here){
 	
 	this.click = function(e){
 		if (screen.scene == here || manager.pause) {
-			if ((e.x - canvas.offsetLeft > this.x) && (e.x - canvas.offsetLeft < this.x + this.w) &&
-				(e.y > this.y) && (e.y < this.y + this.h)) {
+			if ((e.offsetX > this.x) && (e.offsetX < this.x + this.w) &&
+				(e.offsetY > this.y) && (e.offsetY < this.y + this.h)) {
 				manager.soundOn = !manager.soundOn;
 				
 				if(manager.soundOn) {
